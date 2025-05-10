@@ -562,7 +562,7 @@
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        <a href="#" class="theme-btn-1 btn btn-effect-1 d-add-to-cart" title="Add to Cart" data-bs-toggle="modal" onclick="closeCurrentModal('#quick_view_modal')" data-bs-target="#add_to_cart_modal">
+                                                        <a href="#" class="theme-btn-1 btn btn-effect-1 d-add-to-cart" title="Add to Cart" onclick="handleAddToCartClick2(this)" >
                                                             <span>ADD TO CART</span>
                                                         </a>
                                                     </li>
@@ -742,7 +742,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                     <div class="ltn__product-item text-center">
                         <div class="product-img">
-                            <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal"><img src="img/product/1.png" alt="#"></a>
+                            <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal" onclick="populateQuickViewModal(this)" data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}'><img src="${product.thumbnail || 'img/product/1.png'}" alt="#"></a>
                             <div class="product-badge">
                                 <ul>
                                     <li class="badge-2">10%</li>
@@ -752,9 +752,11 @@
                                 <ul>
                                     
                                     <li class="add-to-cart">
-                                        <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
-                                            <span class="cart-text d-none d-xl-block">Add to Cart</span>
-                                            <span class="d-block d-xl-none"><i class="icon-handbag"></i></span>
+                                        <a href="#" title="Add to Cart" data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}' onclick="handleAddToCartClick(this)">
+                                            <div class="d-add-to-cart-div">
+                                                <span class="d-block"><i class="fas fa-shopping-cart"></i></span>
+                                                <span class="cart-text d-block">Add to Cart</span>
+                                            </div>
                                         </a>
                                     </li>
                                    
@@ -781,16 +783,55 @@
             });
         });
       </script>
-  <script>
-    function closeCurrentModal(currentModalId) {
-        const currentModal = document.querySelector(currentModalId);
-        if (currentModal) {
-            const modalInstance = bootstrap.Modal.getInstance(currentModal);
-            if (modalInstance) {
-                modalInstance.hide();
-            }
-        }
+      <script>
+    function handleAddToCartClick(productTag) {
+    // Populate the modal with product details
+    const product = JSON.parse(productTag.getAttribute('data-product'));
+    console.log(product);
+    const modal = document.getElementById('add_to_cart_modal');
+    if (modal) {
+        modal.querySelector('.modal-product-img img').src = product?.thumbnail || 'img/product/default.png';
+        modal.querySelector('.modal-product-info h5 a').textContent = product?.name;
+        modal.querySelector('.modal-product-info h5 a').href = `product-details.html?id=${product?.id}`;
+        modal.querySelector('.modal-product-info .added-cart').textContent = `Successfully added ${product?.name} to your Cart`;
+        modal.querySelector('.modal-product-info .btn-wrapper a:first-child').href = 'cart.html';
+        modal.querySelector('.modal-product-info .btn-wrapper a:last-child').href = 'checkout.html';
     }
+
+    // Open the modal programmatically
+    const modalState = new bootstrap.Modal(modal);
+    modalState.show();
+}
+function handleAddToCartClick2(productTag) {
+    // Populate the modal with product details
+    const product = JSON.parse(productTag.getAttribute('data-product'));
+    console.log(product);
+
+    // Close the Quick View modal
+    const quickViewModalElement = document.getElementById('quick_view_modal');
+    const quickViewModalInstance = bootstrap.Modal.getInstance(quickViewModalElement);
+    if (quickViewModalInstance) {
+        quickViewModalInstance.hide(); // Properly hide the modal
+    } else {
+        console.error('Quick View modal instance not found');
+    }
+
+    // Call the existing Add to Cart function
+    handleAddToCartClick(productTag);
+}
+function populateQuickViewModal(productTag) {
+    const product = JSON.parse(productTag.getAttribute('data-product'));
+    const modal = document.getElementById('quick_view_modal');
+    if (modal) {
+        modal.querySelector('.modal-product-img img').src = product.thumbnail || 'img/product/default.png';
+        modal.querySelector('.modal-product-info h3').textContent = product.name;
+        modal.querySelector('.modal-product-info .product-price span').textContent = `₹${product.price}`;
+        modal.querySelector('.modal-product-info .product-price del').textContent = `₹${product.slashedPrice}`;
+        modal.querySelector('.modal-product-info .modal-product-brief p').textContent = product.description || 'No description available.';
+        modal.querySelector('.modal-product-info .cart-plus-minus-box').value = 1;
+    modal.querySelector('.modal-product-info .d-add-to-cart').setAttribute('data-product', JSON.stringify(product).replace(/'/g, "&apos;"));
+    }
+}
 </script>
 </body>
 </html>

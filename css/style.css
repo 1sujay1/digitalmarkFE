@@ -6439,8 +6439,10 @@ ul.wp-block-latest-posts.is-grid.alignwide {
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  opacity: 0;
+  @media(min-width: 992px) {
+    opacity: 0;
   visibility: hidden;
+ }
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s; }
@@ -6480,14 +6482,20 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 
 .product-hover-action li:hover a {
   background-color: var(--ltn__secondary-color);
-  color: var(--white); }
+  color: var(--white); 
+}
 
 /* product-hover-action-2 */
 .product-hover-action-2 {
+ bottom:0;
+ top: auto;
+  @media(min-width: 992px) {
+    opacity: 0;
+  visibility: hidden;
   top: auto;
   bottom: -20px;
-  opacity: 0;
-  visibility: hidden;
+ }
+  
   -webkit-transform: inherit;
   -ms-transform: inherit;
   transform: inherit; }
@@ -6505,7 +6513,8 @@ ul.wp-block-latest-posts.is-grid.alignwide {
       .product-hover-action-2 ul li a {
         background-color: var(--ltn__body-color);
         font-weight: 500;
-        color: var(--white); }
+        color: var(--white); 
+      }
 
 .ltn__product-item:hover .product-hover-action-2 {
   top: auto;
@@ -13020,4 +13029,10 @@ Custom CSS START
 
 .otp-section .message.error {
   color: #f44336;
+}
+
+.d-add-to-cart-div{
+ display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
