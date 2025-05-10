@@ -790,7 +790,7 @@
     console.log(product);
     const modal = document.getElementById('add_to_cart_modal');
     if (modal) {
-        modal.querySelector('.modal-product-img img').src = product?.thumbnail || 'img/product/default.png';
+        modal.querySelector('.modal-product-img img').src = product?.thumbnail || 'img/product/1.png';
         modal.querySelector('.modal-product-info h5 a').textContent = product?.name;
         modal.querySelector('.modal-product-info h5 a').href = `product-details.html?id=${product?.id}`;
         modal.querySelector('.modal-product-info .added-cart').textContent = `Successfully added ${product?.name} to your Cart`;
@@ -823,7 +823,7 @@ function populateQuickViewModal(productTag) {
     const product = JSON.parse(productTag.getAttribute('data-product'));
     const modal = document.getElementById('quick_view_modal');
     if (modal) {
-        modal.querySelector('.modal-product-img img').src = product.thumbnail || 'img/product/default.png';
+        modal.querySelector('.modal-product-img img').src = product.thumbnail || 'img/product/1.png';
         modal.querySelector('.modal-product-info h3').textContent = product.name;
         modal.querySelector('.modal-product-info .product-price span').textContent = `₹${product.price}`;
         modal.querySelector('.modal-product-info .product-price del').textContent = `₹${product.slashedPrice}`;
