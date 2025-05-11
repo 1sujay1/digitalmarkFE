@@ -559,11 +559,11 @@
                                                     <li>
                                                         <div class="cart-plus-minus">
                                                             <div class="dec qtybutton">-</div>
-                                                            <input type="text" value="01" name="qtybutton" class="cart-plus-minus-box">
+                                                            <input type="text" value="1" name="qtybutton" class="cart-plus-minus-box">
                                                             <div class="inc qtybutton">+</div>
                                                         </div>
                                                     </li>
-                                                    <li>
+                                                    <li class="addToCardDiv">
                                                         <a href="#" class="theme-btn-1 btn btn-effect-1 d-add-to-cart" title="Add to Cart" onclick="handleAddToCartClick2(this)" >
                                                             <span>ADD TO CART</span>
                                                         </a>
@@ -714,6 +714,7 @@
     <script>
         // Run after DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function () {
+         
           const productList = document.getElementById('product-list');
           const token = localStorage.getItem('token'); // or your getToken() utility
             const headers = {
@@ -759,13 +760,22 @@
                             <div class="product-hover-action product-hover-action-2">
                                 <ul>
                                     
-                                    <li class="add-to-cart">
+                                    <li class="ATC-parent-div" id='atc-btn-${product._id}'>
+                                        ${globalCartItems.some(item => item.productId._id === product._id) ? `
+                                        <a href="cart.html" title="View Cart">
+                                            <div class="d-add-to-cart-div">
+                                                <span class="d-block"><i class="fas fa-shopping-cart"></i></span>
+                                                <span class="cart-text d-block">View Cart</span>
+                                            </div>
+                                        </a>
+                                        ` : `
                                         <a href="#" title="Add to Cart" data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}' onclick="handleAddToCartClick(this)">
                                             <div class="d-add-to-cart-div">
                                                 <span class="d-block"><i class="fas fa-shopping-cart"></i></span>
                                                 <span class="cart-text d-block">Add to Cart</span>
                                             </div>
                                         </a>
+                                        `}
                                     </li>
                                    
                                 </ul>
@@ -793,19 +803,20 @@
       </script>
       <script>
    async function handleAddToCartClick(productTag,quantity=1) {
+    event.preventDefault();
     // Populate the modal with product details
     const product = JSON.parse(productTag.getAttribute('data-product'));
     console.log(product);
     const token = getToken()
     if(token){
        const resp =await syncCartToServer(product._id, quantity, token)
-       
     console.log(resp)
     if (!resp || resp.status!==200) {
         alert('Failed to add product to cart, please try again later.');
         console.error('Failed to add product to cart:', resp?.message || 'Unknown error');
         return; // Stop execution if API call fails
     }
+    globalCartItems = resp.data.items || [];
     }else{
         let cart = getLocalCartItems()
     const index = cart.findIndex(item => item._id === product._id);
@@ -815,8 +826,11 @@
       cart.push({ ...product, quantity: 1 });
     }
     setLocalCartITems(cart);
+    globalCartItems = cart;
     }
-
+    
+    updateNavbarCartCount();
+    updateCartModal();
     const modal = document.getElementById('add_to_cart_modal');
     if (modal) {
         modal.querySelector('.modal-product-img img').src = product?.thumbnail || 'img/product/1.png';
@@ -826,13 +840,26 @@
         modal.querySelector('.modal-product-info .btn-wrapper a:first-child').href = 'cart.html';
         modal.querySelector('.modal-product-info .btn-wrapper a:last-child').href = 'checkout.html';
     }
-
+//access atc-btn-${product._id}
+  
     // Open the modal programmatically
     const modalState = new bootstrap.Modal(modal);
     modalState.show();
+    const atcBtn = document.getElementById(`atc-btn-${product._id}`);
+    if (atcBtn) {
+        atcBtn.innerHTML = `
+        <a href="cart.html" title="View Cart">
+            <div class="d-add-to-cart-div">
+                <span class="d-block"><i class="fas fa-shopping-cart"></i></span>
+                <span class="cart-text d-block">View Cart</span>
+            </div>
+        </a>
+        `;
+    }
     
 }
 function handleAddToCartClick2(productTag) {
+    event.preventDefault();
     // Populate the modal with product details
     const product = JSON.parse(productTag.getAttribute('data-product'));
     console.log(product);
@@ -846,11 +873,11 @@ function handleAddToCartClick2(productTag) {
         console.error('Quick View modal instance not found');
     }
     const input = document.querySelector(".cart-plus-minus-box");
-    let quantity = parseInt(input.value) || 0;
+    let quantity = parseInt(input.value) || 1;
     // Call the existing Add to Cart function
     handleAddToCartClick(productTag,quantity);
 }
-function populateQuickViewModal(productTag) {
+async function populateQuickViewModal(productTag) {
     const product = JSON.parse(productTag.getAttribute('data-product'));
     const modal = document.getElementById('quick_view_modal');
     if (modal) { 
@@ -863,6 +890,26 @@ function populateQuickViewModal(productTag) {
         modal.querySelector('.modal-product-info .cart-plus-minus').setAttribute('data-product', JSON.stringify(product).replace(/'/g, "&apos;"));
         modal.querySelector('.modal-product-info .cart-plus-minus').setAttribute('data-product-id', product._id);
         modal.querySelector('.modal-product-info .d-add-to-cart').setAttribute('data-product', JSON.stringify(product).replace(/'/g, "&apos;"));
+
+        const cart = await getCartItems(); // Fetch local cart items
+        console.log(cart,"within cart")
+        const isInCart = cart.some(item => item.productId._id === product._id); // Check if product is in cart
+
+        if (isInCart) {
+            modal.querySelector(".ATC-parent-div").innerHTML = `
+            <a href="cart.html" title="View Cart">
+                <div class="d-add-to-cart-div">
+                    <span class="d-block"><i class="fas fa-shopping-cart"></i></span>
+                    <span class="cart-text d-block">View Cart</span>
+                </div>
+            </a>
+            `;
+            // modal.querySelector('.modal-product-info .d-add-to-cart').innerHTML = `
+            // <span>VIEW CART</span>
+            // `;
+            // modal.querySelector('.modal-product-info .d-add-to-cart').setAttribute('href', 'cart.html');
+            // modal.querySelector('.modal-product-info .d-add-to-cart').removeAttribute('onclick');
+        }
     }
 }
 </script>
@@ -923,7 +970,9 @@ function populateQuickViewModal(productTag) {
         debouncedUpdates[productId](productId, quantity, token);
       }
   
-      async function syncCartToServer(productId, quantity, token) {
+
+    });
+    async function syncCartToServer(productId, quantity, token) {
         try {
           const res = await fetch(`${BASE_URL}/api/cart/add`, {
             method: 'POST',
@@ -941,7 +990,6 @@ function populateQuickViewModal(productTag) {
           return null;
         }
       }
-    });
   </script>
   
 </body>

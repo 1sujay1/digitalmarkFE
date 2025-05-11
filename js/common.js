@@ -98,9 +98,9 @@ const renderHeaderMenu = () => {
                             <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle">
                                 <span class="mini-cart-icon">
                                     <i class="icon-handbag"></i>
-                                    <sup>2</sup>
+                                    <sup>${globalCartItems.length}</sup>
                                 </span>
-                                <h6><span>Your Cart</span> <span class="ltn__secondary-color">$89.25</span></h6>
+                                <h6><span>Your Cart</span> <span class="ltn__secondary-color cartValue">₹${totalCartPrice}</span></h6>
                             </a>
                         </div>
                     </li>
@@ -127,10 +127,134 @@ const renderHeaderMenu = () => {
 </div>
     `;
 };
-
-document.addEventListener("DOMContentLoaded", renderHeaderMenu);
-document.addEventListener("DOMContentLoaded", function () {
+function updateNavbarCartCount() {
+  const cartCountElement = document.querySelector('.mini-cart-icon sup'); // Update this selector based on your HTML structure
+  const cartValueElement = document.querySelector('.mini-cart-icon .cartValue'); // Selector for the cart value element
+  if (cartCountElement) {
+    cartCountElement.textContent = globalCartItems.length; // Update the count
+  }
+  if (cartValueElement) {
+    cartValueElement.textContent = `₹${totalCartPrice.toFixed(2)}`; // Update the total price
+  }
+}
+document.addEventListener("DOMContentLoaded", async () => {
+  await init(); // Ensure globalCartItems is populated
+  renderHeaderMenu();
   updateNavbarOnAuth();
+
+  // Reinitialize modal functionality after rendering the header menu
+  const cartMenuToggle = document.querySelectorAll('.ltn__utilize-toggle');
+  cartMenuToggle.forEach(toggle => {
+    toggle.addEventListener('click', async function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        await updateCartModal(); // Update cart modal dynamically
+        target.classList.add('ltn__utilize-open');
+      }
+    });
+  });
+
+  const cartMenuClose = document.querySelectorAll('.ltn__utilize-close');
+  cartMenuClose.forEach(close => {
+    close.addEventListener('click', function () {
+      this.closest('.ltn__utilize').classList.remove('ltn__utilize-open');
+    });
+  });
+});
+var totalCartPrice = 0;
+// Function to update the cart modal dynamically
+async function updateCartModal() {
+  const cartItemsContainer = document.querySelector('.mini-cart-product-area');
+  const cartFooter = document.querySelector('.mini-cart-footer .mini-cart-sub-total span');
+  if (!cartItemsContainer || !cartFooter) return;
+
+  let cartItems = [];
+  
+
+  if (localStorage.getItem('token')) {
+    // Fetch cart items from API
+    try {
+      const response = await fetch(`${BASE_URL}/api/cart`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        cartItems = data?.data?.items || [];
+        totalCartPrice = data?.data?.totalCartPrice || 0; // Use totalCartPrice from API response
+        console.log('Cart items fetched from API:', cartItems);
+      }
+    } catch (error) {
+      console.error('Error fetching cart items from API:', error);
+    }
+  } else {
+    // Fetch cart items from local storage
+    cartItems = getLocalCartItems();
+    totalCartPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0); // Calculate total price
+  }
+
+document.querySelector('.cartValue').textContent = `₹${totalCartPrice}`; // Update the cart value in the navbar
+  // Update cart modal content
+  if (cartItems.length > 0) {
+    cartItemsContainer.innerHTML = cartItems.map(item => `
+      <div class="mini-cart-item clearfix">
+        <div class="mini-cart-img">
+          <a href="#"><img src="${item.productId.thumbnail || 'img/product/1.png'}" alt="Image"></a>
+          <span class="mini-cart-item-delete" onclick="removeCartItem('${item.productId._id}')"><i class="icon-trash"></i></span>
+        </div>
+        <div class="mini-cart-info">
+          <h6><a href="#">${item.productId.name}</a></h6>
+          <span class="mini-cart-quantity">${item.quantity} x ₹${item.productId.price}</span>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    cartItemsContainer.innerHTML = '<p class="text-center">Your cart is empty.</p>';
+  }
+
+  // Update total cart price
+  cartFooter.textContent = `₹${totalCartPrice}`;
+  updateNavbarCartCount(); // Ensure the header price is updated
+}
+
+// Function to remove an item from the cart
+function removeCartItem(productId) {
+  const token = localStorage.getItem('token');
+  if (token) {
+    // Remove item from server
+    fetch(`${BASE_URL}/api/cart/remove`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ productId }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status==200) {
+          globalCartItems = data?.data?.items || [];
+          updateNavbarCartCount();
+          updateCartModal();
+        }
+      })
+      .catch(error => console.error('Error removing cart item:', error));
+  } else {
+    // Remove item from local storage
+    let cart = getLocalCartItems();
+    cart = cart.filter(item => item._id !== productId);
+    setLocalCartITems(cart);
+    globalCartItems = cart;
+    updateNavbarCartCount();
+    updateCartModal();
+  }
+}
+document.addEventListener("DOMContentLoaded", function () {
+  // updateNavbarOnAuth();
   const modalHTML = `
     <div class="ltn__modal-area ltn__quick-view-modal-area">
     <div class="modal fade" id="auth_modal" tabindex="-1">
@@ -524,3 +648,47 @@ function updateNavbarOnAuth() {
       `;
   }
 }
+var globalCartItems = []; // Declare globally
+async function getCartItems() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    try {
+      const response = await fetch(`${BASE_URL}/api/cart`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Cart items fetched from API:", data);
+        totalCartPrice = data?.data?.totalCartPrice || 0; // Use totalCartPrice from API response
+        return data?.data?.items || [];
+      } else {
+        console.error("Failed to fetch cart items from API");
+        return [];
+      }
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+      return [];
+    }
+  } else {
+    const cartItems = localStorage.getItem("cartItems");
+    if (cartItems) {
+      const parsedItems = JSON.parse(cartItems);
+      totalCartPrice = parsedItems.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      ); // Calculate total price
+    }
+    return cartItems ? JSON.parse(cartItems) : [];
+  }
+}
+async function init() {
+  globalCartItems = await getCartItems(); // Assign to global variable
+  console.log("Cart Items:", globalCartItems);
+}
+
+init();
