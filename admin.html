@@ -29,44 +29,50 @@
   <!-- Add/Update Product Form -->
   <form id="productForm">
     <input type="hidden" id="productId" />
-
+  
     <div class="mb-3">
       <label class="form-label">Name</label>
       <input type="text" class="form-control" id="name" required />
     </div>
-
-    <div class="mb-3">
-      <label class="form-label">Price</label>
-      <input type="number" class="form-control" id="price" required />
-    </div>
-
+  
     <div class="mb-3">
       <label class="form-label">Slashed Price</label>
       <input type="number" class="form-control" id="slashedPrice" />
     </div>
-
+  
+    <div class="mb-3">
+      <label class="form-label">Discount (%)</label>
+      <input type="number" class="form-control" id="discount" />
+    </div>
+  
+    <div class="mb-3">
+      <label class="form-label">Price (Auto Calculated)</label>
+      <input type="number" class="form-control" id="price" disabled />
+    </div>
+  
     <div class="mb-3">
       <label class="form-label">Description</label>
       <textarea class="form-control" id="description"></textarea>
     </div>
-
+  
     <div class="mb-3">
       <label class="form-label">Thumbnail URL</label>
       <input type="text" class="form-control" id="thumbnail" />
     </div>
-
+  
     <div class="mb-3">
       <label class="form-label">Google Drive Link</label>
       <input type="text" class="form-control" id="driveLink" required />
     </div>
-
+  
     <div class="mb-3">
       <label class="form-label">Image URLs (comma separated)</label>
       <input type="text" class="form-control" id="images" placeholder="https://img1.jpg, https://img2.jpg" />
     </div>
-
+  
     <button type="submit" class="btn btn-primary w-100">Save Product</button>
   </form>
+  
 
   <hr class="my-5" />
 
@@ -93,6 +99,7 @@
             <div class="card-body">
               <h5 class="card-title">${p.name}</h5>
               <p class="card-text">₹${p.price} <del>₹${p.slashedPrice || ""}</del></p>
+              <p class="card-text">Discount ${p.discount} %</p>
               <p class="card-text">${p.description || ""}</p>
               <div class="image-preview">
                 ${p.images?.map((img) => `<img src="${img}" alt="img" />`).join("") || ""}
@@ -113,7 +120,7 @@
 
       const product = {
         name: document.getElementById("name").value.trim(),
-        price: document.getElementById("price").value,
+        discount: document.getElementById("discount").value,
         slashedPrice: document.getElementById("slashedPrice").value,
         description: document.getElementById("description").value,
         thumbnail: document.getElementById("thumbnail").value,
@@ -154,6 +161,7 @@ if(btnResp.ok){
       document.getElementById("productId").value = p._id;
       document.getElementById("name").value = p.name;
       document.getElementById("price").value = p.price;
+      document.getElementById("discount").value = p.discount;
       document.getElementById("slashedPrice").value = p.slashedPrice || "";
       document.getElementById("description").value = p.description || "";
       document.getElementById("thumbnail").value = p.thumbnail;
@@ -176,5 +184,26 @@ if(btnResp.ok){
 
     fetchProducts();
   </script>
+  <script>
+    const slashedInput = document.getElementById("slashedPrice");
+    const discountInput = document.getElementById("discount");
+    const priceInput = document.getElementById("price");
+  
+    function calculatePrice() {
+      const slashed = parseFloat(slashedInput.value) || 0;
+      const discount = parseFloat(discountInput.value) || 0;
+  
+      if (slashed > 0 && discount >= 0 && discount <= 100) {
+        const price = Math.floor(slashed - (slashed * discount) / 100);
+        priceInput.value = price;
+      } else {
+        priceInput.value = "";
+      }
+    }
+  
+    slashedInput.addEventListener("input", calculatePrice);
+    discountInput.addEventListener("input", calculatePrice);
+  </script>
+  
 </body>
 </html>
