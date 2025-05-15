@@ -378,8 +378,8 @@ const loginBtn = document.getElementById("loginBtn")
         );
 
         const data = await response.json();
-
-        if (response.ok) {
+console.log("Login response:", data);
+        if (response.ok && data.status==200) {
            loginBtn.innerHTML='Login Success'
           const userData = {
             name: data?.data?.user?.name, // Replace with actual field
