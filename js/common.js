@@ -95,7 +95,7 @@ const renderHeaderMenu = () => {
                     <li>
                         <!-- mini-cart 2 -->
                         <div class="mini-cart-icon mini-cart-icon-2">
-                            <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle">
+                            <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle" onclick="openCartModal(event)">
                                 <span class="mini-cart-icon">
                                     <i class="icon-handbag"></i>
                                     <sup>${globalCartItems.length}</sup>
@@ -170,81 +170,67 @@ async function updateCartModal() {
   if (!cartItemsContainer || !cartFooter) return;
 
   let cartItems = [];
-  
 
   if (localStorage.getItem('token')) {
-    // Fetch cart items from API
     try {
-      const response = await fetch(`${BASE_URL}/api/cart`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        cartItems = data?.data?.items || [];
-        totalCartPrice = data?.data?.totalCartPrice || 0; // Use totalCartPrice from API response
-        console.log('Cart items fetched from API:', cartItems);
+      const response = await fetchCartItems(localStorage.getItem('token'));
+      if (response.status === 200) {
+        cartItems = response.data.items || [];
+        totalCartPrice = response.data.totalCartPrice || 0;
+      } else {
+        console.error(response.message);
       }
     } catch (error) {
-      console.error('Error fetching cart items from API:', error);
+      console.error('Error fetching cart items:', error);
     }
   } else {
-    // Fetch cart items from local storage
     cartItems = getLocalCartItems();
-    totalCartPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0); // Calculate total price
+    totalCartPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }
 
-document.querySelector('.cartValue').textContent = `₹${totalCartPrice}`; // Update the cart value in the navbar
-  // Update cart modal content
+  document.querySelector('.cartValue').textContent = `₹${totalCartPrice}`;
+  console.log('Cart Items:', cartItems);
   if (cartItems.length > 0) {
-    cartItemsContainer.innerHTML = cartItems.map(item => `
-      <div class="mini-cart-item clearfix">
+    let cartItemsContent ="";
+
+cartItems.forEach(item => {
+  cartItemsContent += ` <div class="mini-cart-item clearfix">
         <div class="mini-cart-img">
-          <a href="#"><img src="${item.productId.thumbnail || 'img/product/1.png'}" alt="Image"></a>
-          <span class="mini-cart-item-delete" onclick="removeCartItem('${item.productId._id}')"><i class="icon-trash"></i></span>
+          <a href="#"><img src="${item.thumbnail || 'img/product/1.png'}" alt="Image"></a>
+          <span class="mini-cart-item-delete" onclick="removeCartItem('${item._id}')"><i class="icon-trash"></i></span>
         </div>
         <div class="mini-cart-info">
-          <h6><a href="#">${item.productId.name}</a></h6>
-          <span class="mini-cart-quantity">${item.quantity} x ₹${item.productId.price}</span>
+          <h6><a href="#">${item.name}</a></h6>
+          <span class="mini-cart-quantity">${item.quantity} x ₹${item.price}</span>
         </div>
-      </div>
-    `).join('');
+      </div>`
+    });
+    cartItemsContainer.innerHTML =  cartItemsContent;
+
   } else {
     cartItemsContainer.innerHTML = '<p class="text-center">Your cart is empty.</p>';
   }
-
-  // Update total cart price
   cartFooter.textContent = `₹${totalCartPrice}`;
-  updateNavbarCartCount(); // Ensure the header price is updated
+  updateNavbarCartCount();
 }
 
 // Function to remove an item from the cart
-function removeCartItem(productId) {
+async function removeCartItem(productId) {
   const token = localStorage.getItem('token');
   if (token) {
-    // Remove item from server
-    fetch(`${BASE_URL}/api/cart/remove`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ productId }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status==200) {
-          globalCartItems = data?.data?.items || [];
-          updateNavbarCartCount();
-          updateCartModal();
-        }
-      })
-      .catch(error => console.error('Error removing cart item:', error));
+    try {
+      const response = await removeCartItemFromServer(token, productId);
+      if (response.status === 200) {
+        globalCartItems = response.data.items || [];
+        updateNavbarCartCount();
+        updateCartModal();
+      } else {
+        console.error(response.message);
+      }
+    } catch (error) {
+      console.error('Error removing cart item:', error);
+    }
   } else {
-    // Remove item from local storage
     let cart = getLocalCartItems();
     cart = cart.filter(item => item._id !== productId);
     setLocalCartITems(cart);
@@ -350,7 +336,29 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
     `;
 
+    const cartModalHTML = `
+        <div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu cartModal" >
+        <div class="ltn__utilize-menu-inner ltn__scrollbar">
+            <div class="ltn__utilize-menu-head">
+            <span class="ltn__utilize-menu-title">Cart</span>
+            <button class="ltn__utilize-close">×</button>
+            </div>
+            <div class="mini-cart-product-area ltn__scrollbar">
+            </div>
+            <div class="mini-cart-footer">
+            <div class="mini-cart-sub-total">
+                <h5>Subtotal: <span>$310.00</span></h5>
+            </div>
+            <div class="btn-wrapper"></div>
+                    <a href="checkout.html" class="theme-btn-2 btn btn-effect-2">Checkout</a>
+                </div>
+            </div>
+
+        </div>
+    `
+
   document.body.innerHTML += modalHTML;
+  document.body.innerHTML += cartModalHTML;
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -366,38 +374,26 @@ document.addEventListener("DOMContentLoaded", () => {
 const loginBtn = document.getElementById("loginBtn")
       try {
         loginBtn.innerHTML='Please wait...'
-        const response = await fetch(
-          `${BASE_URL}/api/auth/signInWithEmailPassword`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-          }
-        );
-
-        const data = await response.json();
-console.log("Login response:", data);
-        if (response.ok && data.status==200) {
-           loginBtn.innerHTML='Login Success'
+        const response = await loginUser({ email, password });
+        if (response.status === 200) {
+          loginBtn.innerHTML = 'Login Success';
           const userData = {
-            name: data?.data?.user?.name, // Replace with actual field
-            email: data?.data?.user?.email,
-            token: data?.data?.accessToken, // if using JWT
+            name: response.data.user.name,
+            email: response.data.user.email,
+            token: response.data.accessToken,
           };
-          localStorage.setItem("user", JSON.stringify(userData));
-          localStorage.setItem("token",userData?.token)
+          localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem('token', userData.token);
           updateNavbarOnAuth();
-          window.location.reload(); // Reload or redirect as needed
+          window.location.reload();
         } else {
-          alert(data.message || "Invalid email or password.");
-          loginBtn.innerHTML='Login'
+          alert(response.message || 'Invalid email or password.');
+          loginBtn.innerHTML = 'Login';
         }
       } catch (error) {
-        console.error("Login error:", error);
-        alert("Something went wrong. Please try again.");
-        loginBtn.innerHTML='Login'
+        console.error('Login error:', error);
+        alert('Something went wrong. Please try again.');
+        loginBtn.innerHTML = 'Login';
       }
     });
   }
@@ -418,9 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobile = document.getElementById("mobileRegister").value.trim();
     const email = document.getElementById("emailRegister").value.trim();
     const password = document.getElementById("passwordRegister").value.trim();
-    const confirmPassword = document
-      .getElementById("confirmPasswordRegister")
-      .value.trim();
+    const confirmPassword = document.getElementById("confirmPasswordRegister").value.trim();
     const submitBtn = document.getElementById("submitBtn");
     
     // const otpBtn = document.getElementById("otpBtn");
@@ -434,44 +428,38 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        signupBtn.innerHTML = "Please wait...";
-        const res = await fetch(`${BASE_URL}/api/auth/email/verify-otp`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name,
-            mobile,
-            email,
-            password,
-            confirmPassword,
-            otp,
-            type: "email",
-          }),
+        const response = await verifyOtp({
+          name,
+          mobile,
+          email,
+          password,
+          confirmPassword,
+          otp,
+          type: "email",
         });
-
-        const data = await res.json();
-        if (res.ok) {
+        if (response.status === 200) {
           signupBtn.innerHTML = "Success";
           registerMessage.classList.remove("text-danger");
           registerMessage.classList.add("text-success");
-          registerMessage.textContent =
-            "Registration successful. Please login.";
+          registerMessage.textContent = "Registration successful. Please login.";
           alert("Registration successful!");
           const userData = {
-            name: data?.data?.user?.name, // Replace with actual field
-            email: data?.data?.user?.email,
-            token: data?.data?.accessToken, // if using JWT
+            name: response.data.user.name,
+            email: response.data.user.email,
+            token: response.data.accessToken,
           };
           localStorage.setItem("user", JSON.stringify(userData));
-          localStorage.setItem("token",userData?.token)
+          localStorage.setItem("token", userData.token);
           updateNavbarOnAuth();
-          window.location.reload(); // Reload or redirect as needed
+          window.location.reload();
           registerForm.reset();
         } else {
-          registerMessage.textContent = data.message || "Invalid OTP.";
+          alert(response.message || "Invalid OTP.");
+          registerMessage.textContent = response.message || "Invalid OTP.";
           signupBtn.innerHTML = "Submit";
         }
       } catch (err) {
+        alert("Error verifying OTP:", err);
         registerMessage.textContent = "Error verifying OTP.";
         signupBtn.innerHTML = "Submit";
       }
@@ -499,53 +487,39 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     try {
       submitBtn.innerHTML = "Please wait...";
-      const res = await fetch(`${BASE_URL}/api/auth/email/send-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "email", name, mobile, email, password }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
+      const response = await sendOtp({ type: "email", name, mobile, email, password,isRegister:true });
+      if (response.status === 200) {
         submitBtn.innerHTML = "OTP sent Successfully";
-        
-        [
-          // Disable fields
-          ("nameRegister",
-          "mobileRegister",
-          "emailRegister",
-          "passwordRegister",
-          "confirmPasswordRegister")
-        ].forEach((id) => {
+        ["nameRegister", "mobileRegister", "emailRegister", "passwordRegister", "confirmPasswordRegister"].forEach((id) => {
           const input = document.getElementById(id);
           if (input) input.setAttribute("disabled", "true");
         });
 
-        // Replace registerAction with OTP UI
         registerAction.innerHTML = `
-           <div class="otp-section">
-    <h3>Verify Your OTP</h3>
-    <p>Enter the OTP sent to your email to complete the registration.</p>
-    <div class="form-group">
-      <input type="text" class="form-control" id="otp" placeholder="Enter OTP" required />
-    </div>
-    <p id="otpMessage" class="message"></p>
-    <button type="submit" class="btn" id="signupBtn">Verify and Sign Up</button>
-    <p class="text-muted small mt-2">
-  Didn’t receive OTP?
-  <span id="resendOtpLink" class="text-primary" style="cursor: pointer; display: none;">Resend OTP</span>
-  <span id="resendCountdown" class="text-secondary"> (Resend in 2:00)</span>
-</p>
-  </div>
-          `;
+          <div class="otp-section">
+            <h3>Verify Your OTP</h3>
+            <p>Enter the OTP sent to your email to complete the registration.</p>
+            <div class="form-group">
+              <input type="text" class="form-control" id="otp" placeholder="Enter OTP" required />
+            </div>
+            <p id="otpMessage" class="message"></p>
+            <button type="submit" class="btn" id="signupBtn">Verify and Sign Up</button>
+            <p class="text-muted small mt-2">
+              Didn’t receive OTP?
+              <span id="resendOtpLink" class="text-primary" style="cursor: pointer; display: none;">Resend OTP</span>
+              <span id="resendCountdown" class="text-secondary"> (Resend in 2:00)</span>
+            </p>
+          </div>
+        `;
 
         startOtpResendTimer();
       } else {
-        registerMessage.textContent = data.message || "Failed to send OTP.";
+        alert(response.message || "Failed to send OTP.");
+        registerMessage.textContent = response.message || "Failed to send OTP.";
       }
     } catch (err) {
-      console.log(err);
-      
+      alert("Error sending OTP:", err);
+      console.error("Error sending OTP:", err);
       registerMessage.textContent = "Something went wrong.";
     }
   });
@@ -556,29 +530,24 @@ document.addEventListener("click", async (e) => {
     const resendOtpLink = document.getElementById("resendOtpLink");
     try {
       resendOtpLink.innerHTML = "Please wait...";
-      const res = await fetch(`${BASE_URL}/api/auth/email/send-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "email", name, mobile, email, password }),
-      });
-
-      const data = await res.json();
-      const otpMessage = document.getElementById("otpMessage");
-      if (res.ok) {
+      const response = await sendOtp({ type: "email", name, mobile, email, password });
+      if (response.status === 200) {
+        alert("OTP resent successfully!");
         resendOtpLink.innerHTML = "Resent OTP Success";
         otpMessage.textContent = "OTP resent successfully!";
         otpMessage.classList.remove("text-danger");
         otpMessage.classList.add("text-success");
         startOtpResendTimer();
       } else {
+        alert(response.message || "Failed to resend OTP.");
         resendOtpLink.innerHTML = "Resend OTP";
-        otpMessage.textContent = data.message || "Failed to resend OTP.";
+        otpMessage.textContent = response.message || "Failed to resend OTP.";
         otpMessage.classList.add("text-danger");
       }
     } catch (err) {
+      alert("Error resending OTP:", err);
       resendOtpLink.innerHTML = "Resend OTP";
-      document.getElementById("otpMessage").textContent =
-        "Error while resending OTP.";
+      document.getElementById("otpMessage").textContent = "Error while resending OTP.";
     }
   }
 });
@@ -609,11 +578,10 @@ function startOtpResendTimer() {
 function updateNavbarOnAuth() {
   const user = JSON.parse(localStorage.getItem("user"));
   const navElement = document.querySelector("#navbar-auth");
-  console.log("user", user);
   if (user) {
     navElement.innerHTML = `
          
- <div class="nav-item dropdown" id="navbar-auth">
+ <div class="nav-item dropdown" >
   <a
     class="nav-link dropdown-toggle btn btn-success text-white px-3 py-2"
     href="#"
@@ -622,7 +590,7 @@ function updateNavbarOnAuth() {
     data-bs-toggle="dropdown"
     aria-expanded="false"
   >
-    Admin
+    ${user.name}
   </a>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
     <li><a class="dropdown-item" href="account.html">Profile</a></li>
@@ -653,42 +621,44 @@ async function getCartItems() {
   const token = localStorage.getItem("token");
   if (token) {
     try {
-      const response = await fetch(`${BASE_URL}/api/cart`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Cart items fetched from API:", data);
-        totalCartPrice = data?.data?.totalCartPrice || 0; // Use totalCartPrice from API response
-        return data?.data?.items || [];
+      const response = await fetchCartItems(token);
+      if (response.status === 200) {
+        const data = response.data;
+        totalCartPrice = data?.totalCartPrice || 0;
+        return data?.items || [];
       } else {
-        console.error("Failed to fetch cart items from API");
+        alert(response.message || "Failed to fetch cart items.");
+        console.error(response.message);
         return [];
       }
     } catch (error) {
+      alert("Error fetching cart items:", error);
       console.error("Error fetching cart items:", error);
       return [];
     }
   } else {
-    const cartItems = localStorage.getItem("cartItems");
+    const cartItems = localStorage.getItem("cart");
     if (cartItems) {
       const parsedItems = JSON.parse(cartItems);
       totalCartPrice = parsedItems.reduce(
         (sum, item) => sum + item.price * item.quantity,
         0
-      ); // Calculate total price
+      );
     }
     return cartItems ? JSON.parse(cartItems) : [];
   }
 }
 async function init() {
   globalCartItems = await getCartItems(); // Assign to global variable
-  console.log("Cart Items:", globalCartItems);
 }
 
 init();
+
+async function openCartModal(event) {
+    if (event) event.preventDefault();
+    const cartMenu = document.getElementById('ltn__utilize-cart-menu');
+    if (cartMenu) {
+        await updateCartModal(); // Ensure cart is up to date
+        cartMenu.classList.add('ltn__utilize-open');
+    }
+  }
