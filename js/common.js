@@ -5,7 +5,7 @@ const renderHeaderMenu = () => {
     <div class="row">
         <div class="col logo-column">
             <div class="site-logo">
-                <a href="index.html"><img src="img/logo.png" alt="Logo"></a>
+                <a href="/"><img src="/img/logo.png" alt="Logo"></a>
             </div>
         </div>
         <div class="col header-menu-column">
@@ -95,7 +95,7 @@ const renderHeaderMenu = () => {
                     <li>
                         <!-- mini-cart 2 -->
                         <div class="mini-cart-icon mini-cart-icon-2">
-                            <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle" onclick="openCartModal(event)">
+                            <a href="#" onclick="openCartModal(event)">
                                 <span class="mini-cart-icon">
                                     <i class="icon-handbag"></i>
                                     <sup>${globalCartItems.length}</sup>
@@ -197,7 +197,7 @@ cartItems.forEach(item => {
   cartItemsContent += ` <div class="mini-cart-item clearfix">
         <div class="mini-cart-img">
           <a href="#"><img src="${item.thumbnail || 'img/product/1.png'}" alt="Image"></a>
-          <span class="mini-cart-item-delete" onclick="removeCartItem('${item._id}')"><i class="icon-trash"></i></span>
+          <span class="mini-cart-item-delete" onclick='confirmRemoveCartItem(${JSON.stringify(item)})'><i class="icon-trash"></i></span>
         </div>
         <div class="mini-cart-info">
           <h6><a href="#">${item.name}</a></h6>
@@ -215,6 +215,72 @@ cartItems.forEach(item => {
 }
 
 // Function to remove an item from the cart
+
+// Show confirmation modal before removing cart item
+function confirmRemoveCartItem(item) {
+  console.log('confirmRemoveCartItem called', item);
+  const productId = item._id; // Use _id if available, otherwise use the item directly
+  // Create modal if not already present
+  let modal = document.getElementById('removeCartItemModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'removeCartItemModal';
+    modal.innerHTML = `
+      <div class="modal fade" tabindex="-1" id="removeCartItemModalDialog">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title mt-3 w-100">Remove Item</h5>
+              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to remove this item from your cart?</p>
+              
+                <strong>Title :</strong> <span class="fw-bold text-danger">${item.name}</span>.
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelRemoveCartItemBtn">Cancel</button>
+              <button type="button" class="btn btn-danger" id="confirmRemoveCartItemBtn">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  // Show modal using Bootstrap
+  const bsModal = new bootstrap.Modal(document.getElementById('removeCartItemModalDialog'));
+  bsModal.show();
+
+  // Remove previous event listeners
+  const confirmBtn = document.getElementById('confirmRemoveCartItemBtn');
+  const cancelBtn = document.getElementById('cancelRemoveCartItemBtn');
+  confirmBtn.onclick = function () {
+    bsModal.hide();
+    removeCartItem(productId);
+  };
+  cancelBtn.onclick = function () {
+    bsModal.hide();
+  };
+}
+
+// Replace inline onclick in cart item delete icon
+// In updateCartModal, change:
+// <span class="mini-cart-item-delete" onclick="removeCartItem('${item._id}')">
+// to:
+    // <span class="mini-cart-item-delete" data-product-id="${item._id}">
+
+// And after rendering cart items, add:
+setTimeout(() => {
+  document.querySelectorAll('.mini-cart-item-delete').forEach(btn => {
+    btn.onclick = function (e) {
+      const productId = this.getAttribute('data-product-id');
+      confirmRemoveCartItem(productId);
+    };
+  });
+}, 0);
 async function removeCartItem(productId) {
   const token = localStorage.getItem('token');
   if (token) {
@@ -224,6 +290,7 @@ async function removeCartItem(productId) {
         globalCartItems = response.data.items || [];
         updateNavbarCartCount();
         updateCartModal();
+        window.location.reload(); // Reload to reflect changes
       } else {
         console.error(response.message);
       }
@@ -237,6 +304,7 @@ async function removeCartItem(productId) {
     globalCartItems = cart;
     updateNavbarCartCount();
     updateCartModal();
+    windlow.location.reload(); // Reload to reflect changes
   }
 }
 document.addEventListener("DOMContentLoaded", function () {
@@ -350,7 +418,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <h5>Subtotal: <span>$310.00</span></h5>
             </div>
             <div class="btn-wrapper"></div>
-                    <a href="checkout.html" class="theme-btn-2 btn btn-effect-2">Checkout</a>
+                    <a href="/checkout" class="theme-btn-2 btn btn-effect-2">Checkout</a>
                 </div>
             </div>
 
@@ -625,16 +693,22 @@ async function getCartItems() {
       if (response.status === 200) {
         const data = response.data;
         totalCartPrice = data?.totalCartPrice || 0;
-        return data?.items || [];
+        const responseData = {
+          products:data?.items || [],
+          totalCartPrice: data?.totalCartPrice || 0,
+        }
+        return responseData
       } else {
         alert(response.message || "Failed to fetch cart items.");
         console.error(response.message);
-        return [];
+        return {          products: [],
+          totalCartPrice: 0,};
       }
     } catch (error) {
       alert("Error fetching cart items:", error);
       console.error("Error fetching cart items:", error);
-      return [];
+      return {          products: [],
+        totalCartPrice: 0};
     }
   } else {
     const cartItems = localStorage.getItem("cart");
@@ -645,19 +719,28 @@ async function getCartItems() {
         0
       );
     }
-    return cartItems ? JSON.parse(cartItems) : [];
+    const responseData = {
+      products: JSON.parse(cartItems) || [],
+      totalCartPrice: totalCartPrice || 0,
+    };
+    // return cartItems ? JSON.parse(cartItems) : [];
+    return responseData;
   }
 }
 async function init() {
-  globalCartItems = await getCartItems(); // Assign to global variable
+  const cartItemsResponse = await getCartItems();
+  globalCartItems = cartItemsResponse.products || [];
+   // Assign to global variable
 }
 
 init();
 
 async function openCartModal(event) {
+  console.log('openCartModal called',event);
     if (event) event.preventDefault();
     const cartMenu = document.getElementById('ltn__utilize-cart-menu');
     if (cartMenu) {
+      console.log('Cart menu found, updating modal');
         await updateCartModal(); // Ensure cart is up to date
         cartMenu.classList.add('ltn__utilize-open');
     }

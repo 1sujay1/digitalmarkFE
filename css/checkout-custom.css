@@ -1,0 +1,123 @@
+ .checkout-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .order-summary, .payment-methods {
+      flex: 1 1 500px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .product {
+      display: flex;
+      gap: 15px;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .product img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .product-info {
+      flex: 1;
+    }
+
+    .product-info h4 {
+      margin: 0 0 5px;
+      font-size: 1.1rem;
+      color: #222;
+    }
+
+    .product-info p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .product-price {
+      font-weight: bold;
+      color: #2c3e50;
+      align-self: center;
+    }
+
+    .cartTotal {
+      text-align: right;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #2c3e50;
+    }
+
+    .payment-option {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      padding: 15px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .payment-option:hover {
+      background: #f0f0f0;
+    }
+
+    .payment-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .payment-header img {
+      height: 30px;
+    }
+
+    .expand-info {
+      margin-top: 10px;
+      display: none;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    .payment-option.active .expand-info {
+      display: block;
+    }
+
+    .pay-now {
+      margin-top: 20px;
+      width: 100%;
+      padding: 15px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .pay-now:hover {
+      background: #1e874b;
+    }
+
+    @media (max-width: 768px) {
+      .checkout-container {
+        flex-direction: column;
+      }
+    }
