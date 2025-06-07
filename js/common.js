@@ -173,7 +173,7 @@ async function updateCartModal() {
 
   if (localStorage.getItem('token')) {
     try {
-      const response = await fetchCartItems(localStorage.getItem('token'));
+      const response = await fetchCartItems();
       if (response.status === 200) {
         cartItems = response.data.items || [];
         totalCartPrice = response.data.totalCartPrice || 0;
@@ -621,7 +621,7 @@ async function getCartItems() {
   const token = localStorage.getItem("token");
   if (token) {
     try {
-      const response = await fetchCartItems(token);
+      const response = await fetchCartItems();
       if (response.status === 200) {
         const data = response.data;
         totalCartPrice = data?.totalCartPrice || 0;

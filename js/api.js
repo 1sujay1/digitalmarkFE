@@ -7,7 +7,7 @@ const headers = {
 };
 
 // Utility function to fetch cart items
-async function fetchCartItems(token) {
+async function fetchCartItems() {
   try {
     const response = await fetch(`${BASE_URL}/api/cart`, {
       method: 'GET',
