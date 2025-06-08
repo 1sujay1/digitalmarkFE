@@ -209,7 +209,8 @@
                 modal.querySelector('.modal-product-info .modal-product-brief p').textContent = product.description || 'No description available.';
 
                 const addToCartDiv = modal.querySelector('.addToCardDiv');
-                const cartItems = await getCartItems();
+                const cartItemsData = await getCartItems();
+                const cartItems = cartItemsData?.products || [];
                 const isInCart = cartItems.some(item => (item.productId?._id || item._id) === product._id);
 
                 if (addToCartDiv) {

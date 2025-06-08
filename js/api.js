@@ -144,3 +144,40 @@ async function addProductToCart(productId, quantity, token) {
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
+// Utility function to create an order
+async function createOrder(productIds) {
+  try {
+  
+    const response = await fetch(`${BASE_URL}/api/create-order`, {
+      method: 'POST',
+      headers:headers,
+      body: JSON.stringify({ productIds }),
+    });
+    if (response.ok && response.status === 200) {
+      return response.json();
+    } else {
+      const error = await response.json();
+      return { status: 400, message: error.message || "Failed to create order" };
+    }
+  } catch (error) {
+    console.error('Error creating order:', error);
+    return { status: 400, message: "Something went wrong, try again" };
+  }
+}
+async function fetchMyProducts() {
+  try {
+    const response = await fetch(`${BASE_URL}/api/my-products`, {
+      method: 'GET',
+      headers: headers,
+    });
+    if (response.ok && response.status === 200) {
+      return response.json();
+    } else {
+      const error = await response.json();
+      return { status: 400, message: error.message || "Failed to fetch your products" };
+    }
+  } catch (error) {
+    console.error('Error fetching your products:', error);
+    return { status: 400, message: "Something went wrong, try again" };
+  }
+}
