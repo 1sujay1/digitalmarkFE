@@ -178,7 +178,6 @@ function closeSuccessModal() {
     }, 200); // Wait for header/cart modal render
   });
 </script>
-
 <!-- All JS Plugins -->
 <script src="/js/plugins.js"></script>
 <!-- Main JS -->
@@ -238,7 +237,6 @@ if(!createOrderResp || createOrderResp.status !== 200) {
   return;
 }
 console.log("Create Order Response:", createOrderResp);
-
 const order = createOrderResp.data;
 const options = {
           key: "rzp_test_LHP0r8PwqaWPt5",
