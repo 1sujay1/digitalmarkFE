@@ -109,7 +109,7 @@ const renderHeaderMenu = () => {
                     </li>
                     <li>      
                         <!-- Mobile Menu Button -->
-                        <div class="mobile-menu-toggle d-xl-none">
+                        <div class="mobile-menu-toggle d-none">
                             <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle">
                                 <svg viewBox="0 0 800 600">
                                     <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top"></path>
@@ -226,6 +226,7 @@ function confirmRemoveCartItem(item) {
   // console.log('confirmRemoveCartItem called', item);
   const productId = item._id; // Use _id if available, otherwise use the item directly
   // Create modal if not already present
+  document.querySelector('.ltn__utilize.ltn__utilize-cart-menu.cartModal').classList.remove('ltn__utilize-open');
   let modal = document.getElementById('removeCartItemModal');
   if (!modal) {
     modal = document.createElement('div');
@@ -348,7 +349,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <label>Password</label>
                                     <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-2 w-100" id="loginBtn">Login</button>
+                                <button type="submit" class="theme-btn-1 btn btn-effect-1 mt-2 w-100" id="loginBtn">Login</button>
                             </form>
                         </div>
 
@@ -394,7 +395,7 @@ document.addEventListener("DOMContentLoaded", function () {
   <!-- Dynamic Button and OTP Section -->
   <div class="registerAction">
     <p id="registerMessage" class="text-danger mt-2"></p>
-    <button type="submit" class="btn btn-success mt-3 w-100" id="submitBtn">Submit</button>
+    <button type="submit" class="theme-btn-1 btn btn-effect-1 mt-3 w-100" id="submitBtn">Submit</button>
     <button type="button" class="btn btn-primary mt-3 w-100" id="otpBtn" style="display: none;">Send OTP</button>
   </div>
 </form>
@@ -429,7 +430,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <h5>Subtotal: <span></span></h5>
           </div>
           <div class="btn-wrapper"></div>
-          <a href="/checkout" class="theme-btn-2 btn btn-effect-2 checkoutBtn">Checkout</a>
+          <a class="theme-btn-2 btn btn-effect-2 checkoutBtn">Checkout</a>
         </div>
       </div>
     </div>
@@ -765,7 +766,10 @@ async function openCartModal(event) {
           e.preventDefault(); // Block navigation
          // Show the modal using Bootstrap 5 API
           const authModal = new bootstrap.Modal(document.getElementById('auth_modal'));
+          document.querySelector('.ltn__utilize.ltn__utilize-cart-menu.cartModal').classList.remove('ltn__utilize-open');
           authModal.show();
+        }else{
+          window.location.replace('/checkout');
         }
         // else: allow href to navigate normally
       });
@@ -777,7 +781,7 @@ async function openCartModal(event) {
     if (clearCartBtn) {
       clearCartBtn.addEventListener("click", function (e) {
         e.preventDefault();
-
+document.querySelector('.ltn__utilize.ltn__utilize-cart-menu.cartModal').classList.remove('ltn__utilize-open');
         // Create modal if not already present
         let modal = document.getElementById('clearCartModal');
         if (!modal) {

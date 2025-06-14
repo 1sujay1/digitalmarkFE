@@ -13052,3 +13052,6 @@ Custom CSS START
     pointer-events: none;
     opacity: 0.5;
 }
+#auth_modal{
+ z-index: 999999;
+}
