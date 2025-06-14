@@ -71,8 +71,8 @@
                                 <div class="col-lg-4">
                                     <div class="ltn__tab-menu-list mb-50">
                                         <div class="nav">
-                                            <a class="active show" data-bs-toggle="tab" href="#liton_tab_1_1">Dashboard <i class="fas fa-home"></i></a>
-                                            <a data-bs-toggle="tab" href="#liton_tab_1_2">Orders <i class="fas fa-file-alt"></i></a>
+                                            <!-- <a class="active show" data-bs-toggle="tab" href="#liton_tab_1_1">Dashboard <i class="fas fa-home"></i></a> -->
+                                            <a data-bs-toggle="tab"class="active show"  href="#liton_tab_1_2">Orders <i class="fas fa-file-alt"></i></a>
                                             <!-- <a data-bs-toggle="tab" href="#liton_tab_1_3">Downloads <i class="fas fa-arrow-down"></i></a>
                                             <a data-bs-toggle="tab" href="#liton_tab_1_4">address <i class="fas fa-map-marker-alt"></i></a>
                                             <a data-bs-toggle="tab" href="#liton_tab_1_5">Account Details <i class="fas fa-user"></i></a>
@@ -82,13 +82,13 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="tab-content">
-                                        <div class="tab-pane fade active show" id="liton_tab_1_1">
+                                        <!-- <div class="tab-pane fade active show" id="liton_tab_1_1">
                                             <div class="ltn__myaccount-tab-content-inner">
                                                 <p>Hello <strong>UserName</strong> (not <strong>UserName</strong>? <small><a href="login-register.html">Log out</a></small> )</p>
                                                 <p>From your account dashboard you can view your <span>recent orders</span>, manage your <span>shipping and billing addresses</span>, and <span>edit your password and account details</span>.</p>
                                             </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="liton_tab_1_2">
+                                        </div> -->
+                                        <div class="tab-pane fade active show" id="liton_tab_1_2">
                                             <div class="ltn__myaccount-tab-content-inner">
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -279,7 +279,7 @@
                             <div class="footer-menu">
                                 <ul>
                                     <li><a href="/account">My account</a></li>
-                                    <li><a href="/checkout">Checkout</a></li>
+                                    <li><a class="checkoutBtn" href="/checkout">Checkout</a></li>
                                     <li><a href="/contact">Contact us</a></li>
                                     <li><a href="/cart">Shopping Cart</a></li>
                                     <li><a href="/wishlist">Wishlist</a></li>
@@ -424,6 +424,7 @@
     <!-- Main JS -->
     <script src="/js/main.js"></script>
       <!-- Custom JS -->
+<script src="/js/auth.js"></script>
 <script src="/js/api.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/common.js"></script>

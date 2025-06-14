@@ -1,69 +1,105 @@
 // Run after DOM is fully loaded
-      document.addEventListener('DOMContentLoaded', async function () {
+       async function renderProducts(searchQuery = '',sortOrder='') {
+        
+          // console.log('Rendering products with search query:', searchQuery);
+          // console.log('Sort order:', sortOrder);
+          const productList = document.getElementById('product-list');
+          if (!productList) {
+            console.error('Product list element not found in the DOM. Ensure the element with id "product-list" exists in your HTML.');
+            return;
+          }
+          productList.innerHTML = LoaderHTML;
+
+          let data;
+          if (searchQuery) {
+           const products = localStorage.getItem('products');
+          let productsArr = JSON.parse(products) || [];
          
-      const productList = document.getElementById('product-list');
-      if (!productList) {
-        console.error('Product list element not found in the DOM. Ensure the element with id "product-list" exists in your HTML.');
-        return;
-      }
-        // Clear loading text and fetch products
-        const data = await fetchProducts();
-        if (!productList) {
-          console.error('Product list element not found in the DOM.');
-          return;
-        }
-        if (data.status !== 200 || !data.data.length) {
-          console.warn('No products available or invalid response structure.');
-          productList.textContent = 'No products available.';
-          return;
-        }
-        let productContent = '';
-        const productsResponse = data?.data;
-        productsResponse.forEach(product => {
-          productContent += `
-          <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-              <div class="ltn__product-item text-center">
-                  <div class="product-img">
-                      <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal" onclick="populateQuickViewModal(this,event)" data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}'><img src="${product.thumbnail || 'img/product/1.png'}" alt="#"></a>
-                      <div class="product-badge">
-                          <ul>
-                              <li class="badge-2">10%</li>
-                          </ul>
+          const filteredProducts = productsArr.filter(product =>
+            product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+          // console.log('Filtered products:', filteredProducts);
+            data = { status: 200, data: filteredProducts };
+          } else {
+            data = await fetchProducts();
+          }
+        
+
+          if (data.status !== 200 || !data.data.length) {
+            console.warn('No products available or invalid response structure.');
+            productList.textContent = 'No products available.';
+            return;
+          }
+          let productContent = '';
+          let productsResponse = data?.data;
+          if(sortOrder === 'low') {
+            productsResponse = productsResponse.sort((a, b) => a.price - b.price);
+          } else if(sortOrder === 'high') {
+            productsResponse = productsResponse.sort((a, b) => b.price - a.price);
+          }
+          if(productsResponse.length){
+        // console.log('Products found:', productsResponse.length);
+           const productCountDiv=document.getElementById("showResultsCountDisplay")
+           if(productCountDiv){
+              productCountDiv.innerHTML=`Showing ${productsResponse.length} Results`
+           }
+          }
+          localStorage.setItem('products', JSON.stringify(productsResponse))
+          productsResponse.forEach(product => {
+            productContent += `
+              <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                  <div class="ltn__product-item text-center">
+                      <div class="product-img">
+                          <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal" onclick="populateQuickViewModal(this,event)" data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}'><img src="${product.thumbnail || 'img/product/1.png'}" alt="#"></a>
+                          <div class="product-badge">
+                              <ul>
+                                  <li class="badge-2">10%</li>
+                              </ul>
+                          </div>
+                          <div class="product-hover-action product-hover-action-2">
+                              <ul>
+                                  <li class="ATC-parent-div" id='atc-btn-${product._id}'>
+                                      ${globalCartItems?.some(item => item._id === product._id) ? `
+                                      <a onclick="handleViewCartFromQuickView(event)" class='theme-btn-1 btn-effect-1' title="View Cart">
+                                          <div class="d-add-to-cart-div">
+                                              <span class="d-block"><i class="fas fa-shopping-cart"></i></span>
+                                              <span class="cart-text d-block">View Cart</span>
+                                          </div>
+                                      </a>
+                                      ` : `
+                                      <a href="#" title="Add to Cart" data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}' onclick="handleAddToCartClick(this,event,1)">
+                                          <div class="d-add-to-cart-div">
+                                              <span class="d-block"><i class="fas fa-shopping-cart"></i></span>
+                                              <span class="cart-text d-block">Add to Cart</span>
+                                          </div>
+                                      </a>
+                                      `}
+                                  </li>
+                              </ul>
+                          </div>
                       </div>
-                      <div class="product-hover-action product-hover-action-2">
-                          <ul>
-                              <li class="ATC-parent-div" id='atc-btn-${product._id}'>
-                                  ${globalCartItems?.some(item => item._id === product._id) ? `
-                                  <a onclick="handleViewCartFromQuickView(event)" class='theme-btn-1 btn-effect-1' title="View Cart">
-                                      <div class="d-add-to-cart-div">
-                                          <span class="d-block"><i class="fas fa-shopping-cart"></i></span>
-                                          <span class="cart-text d-block">View Cart</span>
-                                      </div>
-                                  </a>
-                                  ` : `
-                                  <a href="#" title="Add to Cart" data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}' onclick="handleAddToCartClick(this,event,1)">
-                                      <div class="d-add-to-cart-div">
-                                          <span class="d-block"><i class="fas fa-shopping-cart"></i></span>
-                                          <span class="cart-text d-block">Add to Cart</span>
-                                      </div>
-                                  </a>
-                                  `}
-                              </li>
-                          </ul>
-                      </div>
-                  </div>
-                  <div class="product-info">
-                      <h2 class="product-title"><a href="product-details.html">${product.name}</a></h2>
-                      <div class="product-price">
-                          <span>₹${product.price}</span>
-                          <del>₹${product.slashedPrice}</del>
+                      <div class="product-info">
+                          <h2 class="product-title"><a href="product-details.html">${product.name}</a></h2>
+                          <div class="product-price">
+                              <span>₹${product.price}</span>
+                              <del>₹${product.slashedPrice}</del>
+                          </div>
                       </div>
                   </div>
               </div>
-          </div>
-          `;
-        });
-        productList.innerHTML = productContent;
+            `;
+          });
+          productList.innerHTML = productContent;
+          return productsResponse
+        }
+document.addEventListener('DOMContentLoaded', async function () {
+        // Function to render products to the DOM
+       
+
+        // Initial render on DOMContentLoaded
+     const productsResp=   await renderProducts();
+    //  console.log('Products rendered:', productsResp);
+       
       })
       document.addEventListener("DOMContentLoaded", function () {
         document.body.addEventListener("click", function (e) {
@@ -157,7 +193,7 @@
                 modal.querySelector('.modal-product-img img').src = product?.thumbnail || 'img/product/1.png';
                 modal.querySelector('.modal-product-info h5 a').textContent = product?.name;
                 modal.querySelector('.modal-product-info h5 a').href = `product-details.html?id=${product?.id}`;
-                modal.querySelector('.modal-product-info .added-cart').textContent = `Successfully added to your Cart`;
+                modal.querySelector('.modal-product-info .added-cart').innerHTML = `<i class="fas fa-check-circle" style="color: #28a745; font-size: 20px;"></i> Successfully added to your Cart`;
                 // modal.querySelector('.modal-product-info .btn-wrapper a:first-child').href = 'cart.html';
                 // modal.querySelector('.modal-product-info .btn-wrapper a:last-child').href = 'checkout.html';
             }

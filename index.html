@@ -146,6 +146,58 @@
                         <h1 class="section-title section-title-border">Shop Now</h1>
                     </div>
                 </div>
+                <div class="col-lg-9 d-none d-xl-block">
+                    <div class="ltn__shop-options">
+                        <ul>
+                            <li>
+                               <div class="showing-product-number text-right">
+                                    <span id="showResultsCountDisplay">Showing 9 of 20 results</span>
+                                </div> 
+                            </li>
+                            <li>
+                               <div class="short-by text-center">
+                                    <select class="nice-select" onchange="renderProducts('',this.value)">
+                                        
+                                        <option >Default sorting</option>
+                                        <option value="low">Sort by price: low to high</option>
+                                        <option value="high">Sort by price: high to low</option>
+                                    </select>
+                                    
+                                </div>
+                                <!-- <div class="ltn__grid-list-tab-menu ">
+                                    <div class="nav">
+                                        <a class="active show" data-bs-toggle="tab" href="#liton_product_grid"><i class="icon-grid"></i></a>
+                                        <a data-bs-toggle="tab" href="#liton_product_list"><i class="icon-menu"></i></a>
+                                    </div>
+                                </div>  -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="col-lg-3">
+                    <div class="ltn__search-widget mb-4">
+                        <div style="position:relative;">
+                            <input
+                                type="text"
+                                id="product-search"
+                                class="form-control"
+                                placeholder="Search products..."
+                                oninput="renderProducts(this.value)"
+                                style="padding-right:40px;"
+                            />
+                            <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:#aaa;pointer-events:none;">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <script>
+                        // Optionally, render all products on initial load
+                        document.addEventListener('DOMContentLoaded', function() {
+                            renderProducts('');
+                        });
+                    </script>
+                </div>
+                
             </div>
             <div class="row justify-content-center" id="product-list">
                 <!-- ltn__product-item -->
@@ -477,22 +529,39 @@
                                             <div class="modal-product-img">
                                                 <img src="/img/product/1.png" alt="#">
                                             </div>
-                                             <div class="modal-product-info">
-                                                <h5><a href="product-details.html">Heart's Desire</a></h5>
-                                                <p class="added-cart"><i class="fa fa-check-circle"></i>  Successfully added to your Cart</p>
-                                                <div class="btn-wrapper">
-                                                    <a onclick="handleViewCartFromQuickView(event,'add_to_cart_modal')" class="theme-btn-1 btn btn-effect-1">View Cart</a>
-                                                    <a href="/checkout" class="theme-btn-2 btn btn-effect-2">Checkout</a>
-                                                </div>
-                                             </div>
+                                             <div class="modal-product-info" style="text-align: center;">
+    <h5><a href="product-details.html">Heart's Desire</a></h5>
+
+    <p class="added-cart" style="color: #28a745; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; animation: fadeIn 0.5s ease;">
+        
+        Successfully added to your Cart
+    </p>
+
+    <div class="btn-wrapper" style="margin-top: 15px;">
+        <a onclick="handleViewCartFromQuickView(event,'add_to_cart_modal')" class="theme-btn-1 btn btn-effect-1">
+            View Cart
+        </a>
+        <a href="/checkout" class="theme-btn-2 btn btn-effect-2">
+            Checkout
+        </a>
+    </div>
+</div>
+
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
                                         </div>
                                          <!-- additional-info -->
-                                         <div class="additional-info d-none--">
-                                            <p>We want to give you <b>10% discount</b> for your first order, <br>  Use (fiama10) discount code at checkout</p>
+                                         <!-- <div class="additional-info d-none--">
+                                            <p>We want to give you <b>10% discount</b> for your first order, <br>  Use (DIGI) discount code at checkout</p>
                                             <div class="payment-method">
                                                 <img src="/img/icons/payment.png" alt="#">
                                             </div>
-                                         </div>
+                                         </div> -->
                                     </div>
                                 </div>
                              </div>

@@ -189,7 +189,7 @@ async function updateCartModal() {
   }
 
   document.querySelector('.cartValue').textContent = `₹${totalCartPrice}`;
-  console.log('Cart Items:', cartItems);
+  // console.log('Cart Items:', cartItems);
   if (cartItems.length > 0) {
     let cartItemsContent ="";
 
@@ -218,7 +218,7 @@ cartItems.forEach(item => {
 
 // Show confirmation modal before removing cart item
 function confirmRemoveCartItem(item) {
-  console.log('confirmRemoveCartItem called', item);
+  // console.log('confirmRemoveCartItem called', item);
   const productId = item._id; // Use _id if available, otherwise use the item directly
   // Create modal if not already present
   let modal = document.getElementById('removeCartItemModal');
@@ -260,6 +260,7 @@ function confirmRemoveCartItem(item) {
   confirmBtn.onclick = function () {
     bsModal.hide();
     removeCartItem(productId);
+    window.location.reload(); // Reload to reflect changes
   };
   cancelBtn.onclick = function () {
     bsModal.hide();
@@ -418,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <h5>Subtotal: <span>$310.00</span></h5>
             </div>
             <div class="btn-wrapper"></div>
-                    <a href="/checkout" class="theme-btn-2 btn btn-effect-2">Checkout</a>
+                    <a href="/checkout" class="theme-btn-2 btn btn-effect-2 checkoutBtn">Checkout</a>
                 </div>
             </div>
 
@@ -736,12 +737,28 @@ async function init() {
 init();
 
 async function openCartModal(event) {
-  console.log('openCartModal called',event);
+  // console.log('openCartModal called',event);
     if (event) event.preventDefault();
     const cartMenu = document.getElementById('ltn__utilize-cart-menu');
     if (cartMenu) {
-      console.log('Cart menu found, updating modal');
+      // console.log('Cart menu found, updating modal');
         await updateCartModal(); // Ensure cart is up to date
         cartMenu.classList.add('ltn__utilize-open');
     }
   }
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".checkoutBtn").forEach(btn => {
+      btn.addEventListener("click", function (e) {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          e.preventDefault(); // Block navigation
+         // Show the modal using Bootstrap 5 API
+          const authModal = new bootstrap.Modal(document.getElementById('auth_modal'));
+          authModal.show();
+        }
+        // else: allow href to navigate normally
+      });
+    });
+  });

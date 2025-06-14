@@ -183,6 +183,7 @@ function closeSuccessModal() {
 <!-- Main JS -->
 <script src="/js/main.js"></script>
   <!-- Custom JS -->
+   <script src="/js/auth.js"></script>    
 <script src="/js/api.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/common.js"></script>
@@ -192,7 +193,7 @@ function closeSuccessModal() {
     window.addEventListener('DOMContentLoaded', async function() {
        const getAllCartItemsResponse = await getCartItems();
        const getAllCartItems = getAllCartItemsResponse.products || [];
-       console.log('Cart Items:', getAllCartItems);
+      //  console.log('Cart Items:', getAllCartItems);
        const checkoutProductDiv = document.querySelector('.checkoutProductDiv');
     // Example: getAllCartItems = [{...}, {...}]
     if (Array.isArray(getAllCartItems) && getAllCartItems.length > 0) {
@@ -226,7 +227,7 @@ function closeSuccessModal() {
   async function payWithRazorpay(e) {
     e.stopPropagation();
     const token = getToken()
-console.log("Token:", token);
+// console.log("Token:", token);
 const getAllCartItemsResponse = await getCartItems();
 const getAllCartItems = getAllCartItemsResponse.products || [];
 const productIds = getAllCartItems.map(p => p._id);
@@ -236,7 +237,7 @@ if(!createOrderResp || createOrderResp.status !== 200) {
   console.error("Order creation failed:", createOrderResp);
   return;
 }
-console.log("Create Order Response:", createOrderResp);
+// console.log("Create Order Response:", createOrderResp);
 const order = createOrderResp.data;
 const options = {
           key: "rzp_test_LHP0r8PwqaWPt5",
@@ -246,7 +247,7 @@ const options = {
           description: "Test Transaction",
           order_id: order.id,
           handler: function (response) {
-            console.log("Payment Response:", response);
+            // console.log("Payment Response:", response);
             // Call verify-payment API
             fetch(`${BASE_URL}/api/verify-payment`, {
               method: 'POST',
@@ -262,7 +263,7 @@ const options = {
             })
             .then(res => res.json())
             .then(result => {
-              console.log("Verification Result:", result);
+              // console.log("Verification Result:", result);
               if (result.status === 200) {
                 localStorage.removeItem("cart");
                 showSuccessModal(response.razorpay_payment_id, options.order_id, order.amount);
@@ -315,7 +316,7 @@ rzp.on('payment.failed', async function (response) {
 
 // 👇 Optional: handle modal dismiss (user closes popup without paying)
 rzp.on('payment.dismiss', function () {
-  console.log("🚫 Razorpay modal was closed without completing payment");
+  // console.log("🚫 Razorpay modal was closed without completing payment");
   alert("⚠️ Payment popup closed.");
 });
         rzp.open();

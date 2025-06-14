@@ -17,3 +17,8 @@
         return items ? JSON.parse(items) : [];
     }
     
+const LoaderHTML =`<div class="d-flex justify-content-center align-items-center" style="min-height:200px;">
+              <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>`
