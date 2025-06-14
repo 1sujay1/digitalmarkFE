@@ -13048,3 +13048,7 @@ Custom CSS START
 .product-hover-action-2 a:hover{
   cursor: pointer;
 }
+.cart-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}

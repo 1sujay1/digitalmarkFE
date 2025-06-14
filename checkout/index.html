@@ -62,7 +62,11 @@
     <h2>Order Summary</h2>
 
     <div class="checkoutProductDiv">
-
+<div class="d-flex justify-content-center align-items-center" style="min-height:200px;">
+              <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
     </div>
 
     <div class="cartTotal"></div>
@@ -82,12 +86,12 @@
   </div>
   <div class="expand-info">
     Fast, secure payments using UPI, Cards or Net Banking via Razorpay.
-    <button class="pay-now"   onclick="payWithRazorpay(event)">Pay with Razorpay</button>
+    <button class="pay-now" id="razorpayBtn"  onclick="payWithRazorpay(event)">Pay with Razorpay</button>
   </div>
 </div>
 
     <!-- PayPal Option -->
-    <div class="payment-option" onclick="toggleInfo(this)">
+    <!-- <div class="payment-option" onclick="toggleInfo(this)">
       <div class="payment-header">
         <div><img src="/img/payments/paypal.svg" alt="PayPal" style="height: 30px;"></div>
         <i class="fas fa-chevron-down"></i>
@@ -96,7 +100,7 @@
         Pay securely with your PayPal account or linked credit card.
         <button class="pay-now" style="background-color:#ffc439; color:#111;" onclick="payWithPaypal(event)">Pay with PayPal</button>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
     <!-- WISHLIST AREA START -->
@@ -206,7 +210,7 @@ function closeSuccessModal() {
           </div>
           <div class="product-price">
          ${item.slashedPrice ? `<span style="text-decoration:line-through;color:#888;">$${item.slashedPrice}</span> ` : ''}
-         $${item.price}
+         ₹${item.price}
           </div>
         </div>
       `).join('');
@@ -214,7 +218,7 @@ function closeSuccessModal() {
       checkoutProductDiv.innerHTML = '<div>No items in cart.</div>';
     }
         document.querySelector('.cartTotal').innerHTML = `
-         Total: ${getAllCartItemsResponse?.totalCartPrice}
+         Total: ₹${getAllCartItemsResponse?.totalCartPrice}
         `;
     });
     
@@ -226,6 +230,8 @@ function closeSuccessModal() {
 
   async function payWithRazorpay(e) {
     e.stopPropagation();
+    document.getElementById("razorpayBtn").disabled = true; // Disable button to prevent multiple clicks
+    document.getElementById("razorpayBtn").textContent = "Processing..."; // Change button text
     const token = getToken()
 // console.log("Token:", token);
 const getAllCartItemsResponse = await getCartItems();
@@ -235,6 +241,8 @@ const createOrderResp = await createOrder(productIds);
 if(!createOrderResp || createOrderResp.status !== 200) {
   alert("❌ Failed to create Razorpay order.");
   console.error("Order creation failed:", createOrderResp);
+  document.getElementById("razorpayBtn").disabled = false; // Re-enable button
+  document.getElementById("razorpayBtn").textContent = "Pay with Razorpay"; // Reset button text
   return;
 }
 // console.log("Create Order Response:", createOrderResp);
@@ -273,6 +281,8 @@ const options = {
               }
             })
             .catch(err => {
+              document.getElementById("razorpayBtn").disabled = false; // Re-enable button
+              document.getElementById("razorpayBtn").textContent = "Pay with Razorpay"; // Reset button text
               console.error("Verification error:", err);
               alert("❌ Error verifying payment.");
             });
@@ -306,6 +316,8 @@ rzp.on('payment.failed', async function (response) {
       })
     });
   } catch (err) {
+    document.getElementById("razorpayBtn").disabled = false; // Re-enable button
+    document.getElementById("razorpayBtn").textContent = "Pay with Razorpay"; // Reset button text
     console.error("Error logging payment failure:", err);
   }
   console.error("❌ Payment Failed:", response.error);
@@ -316,6 +328,8 @@ rzp.on('payment.failed', async function (response) {
 
 // 👇 Optional: handle modal dismiss (user closes popup without paying)
 rzp.on('payment.dismiss', function () {
+  document.getElementById("razorpayBtn").disabled = false; // Re-enable button
+  document.getElementById("razorpayBtn").textContent = "Pay with Razorpay"; // Reset button text
   // console.log("🚫 Razorpay modal was closed without completing payment");
   alert("⚠️ Payment popup closed.");
 });

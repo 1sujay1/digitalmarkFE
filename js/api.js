@@ -164,6 +164,26 @@ async function createOrder(productIds) {
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
+// Utility function to clear the cart
+async function clearCart() {
+  try {
+    const response = await fetch(`${BASE_URL}/api/cart/clear`, {
+      method: 'POST',
+      headers: headers,
+    });
+    if (response.ok && response.status === 200) {
+      localStorage.removeItem('cart'); // Clear local cart items
+      return response.json();
+    } else {
+      const error = await response.json();
+      return { status: 400, message: error.message || "Failed to clear cart" };
+    }
+  } catch (error) {
+    console.error('Error clearing cart:', error);
+    return { status: 400, message: "Something went wrong, try again" };
+  }
+}
+
 async function fetchMyProducts() {
   try {
     const response = await fetch(`${BASE_URL}/api/my-products`, {

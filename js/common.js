@@ -1,5 +1,8 @@
 const renderHeaderMenu = () => {
   const menuContainer = document.getElementById("headerMenu");
+  // Disable cart if empty
+  const cartDisabled = globalCartItems.length === 0 ? 'pointer-events: none; opacity: 0.5;' : '';
+
   menuContainer.innerHTML = `
     <div class="container">
     <div class="row">
@@ -94,7 +97,7 @@ const renderHeaderMenu = () => {
                     </li>
                     <li>
                         <!-- mini-cart 2 -->
-                        <div class="mini-cart-icon mini-cart-icon-2">
+                        <div class="mini-cart-icon mini-cart-icon-2" id="header-cart-block" style="${cartDisabled}">
                             <a href="#" onclick="openCartModal(event)">
                                 <span class="mini-cart-icon">
                                     <i class="icon-handbag"></i>
@@ -165,6 +168,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 var totalCartPrice = 0;
 // Function to update the cart modal dynamically
 async function updateCartModal() {
+  document.getElementById("header-cart-block").style.pointerEvents = 'auto'; // Enable cart icon pointer events
+  document.getElementById("header-cart-block").style.opacity = '1'; // Reset opacity
   const cartItemsContainer = document.querySelector('.mini-cart-product-area');
   const cartFooter = document.querySelector('.mini-cart-footer .mini-cart-sub-total span');
   if (!cartItemsContainer || !cartFooter) return;
@@ -201,7 +206,7 @@ cartItems.forEach(item => {
         </div>
         <div class="mini-cart-info">
           <h6><a href="#">${item.name}</a></h6>
-          <span class="mini-cart-quantity">${item.quantity} x ₹${item.price}</span>
+          <span class="mini-cart-quantity">1 x ₹${item.price}</span>
         </div>
       </div>`
     });
@@ -406,24 +411,28 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
 
     const cartModalHTML = `
-        <div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu cartModal" >
-        <div class="ltn__utilize-menu-inner ltn__scrollbar">
-            <div class="ltn__utilize-menu-head">
-            <span class="ltn__utilize-menu-title">Cart</span>
+      <div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu cartModal" >
+      <div class="ltn__utilize-menu-inner ltn__scrollbar">
+        <div class="ltn__utilize-menu-head d-flex align-items-center justify-content-between">
+          <span class="ltn__utilize-menu-title">Cart</span>
+          <div>
+            <button class="btn btn-link p-0 me-2" id="clearCartBtn" title="Clear Cart" style="font-size: 1.3rem; color: #dc3545;">
+              <i class="icon-trash"></i>
+            </button>
             <button class="ltn__utilize-close">×</button>
-            </div>
-            <div class="mini-cart-product-area ltn__scrollbar">
-            </div>
-            <div class="mini-cart-footer">
-            <div class="mini-cart-sub-total">
-                <h5>Subtotal: <span>$310.00</span></h5>
-            </div>
-            <div class="btn-wrapper"></div>
-                    <a href="/checkout" class="theme-btn-2 btn btn-effect-2 checkoutBtn">Checkout</a>
-                </div>
-            </div>
-
+          </div>
         </div>
+        <div class="mini-cart-product-area ltn__scrollbar">
+        </div>
+        <div class="mini-cart-footer">
+          <div class="mini-cart-sub-total">
+            <h5>Subtotal: <span></span></h5>
+          </div>
+          <div class="btn-wrapper"></div>
+          <a href="/checkout" class="theme-btn-2 btn btn-effect-2 checkoutBtn">Checkout</a>
+        </div>
+      </div>
+    </div>
     `
 
   document.body.innerHTML += modalHTML;
@@ -762,3 +771,76 @@ async function openCartModal(event) {
       });
     });
   });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const clearCartBtn = document.getElementById("clearCartBtn");
+    if (clearCartBtn) {
+      clearCartBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Create modal if not already present
+        let modal = document.getElementById('clearCartModal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'clearCartModal';
+          modal.innerHTML = `
+            <div class="modal fade" tabindex="-1" id="clearCartModalDialog">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title mt-3 w-100">Clear Cart</h5>
+                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Are you sure you want to clear all items from your cart?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelClearCartBtn">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmClearCartBtn">Clear All</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(modal);
+        }
+
+        // Show modal using Bootstrap
+        const bsModal = new bootstrap.Modal(document.getElementById('clearCartModalDialog'));
+        bsModal.show();
+
+        // Remove previous event listeners if any
+        const confirmBtn = document.getElementById('confirmClearCartBtn');
+        const cancelBtn = document.getElementById('cancelClearCartBtn');
+        confirmBtn.onclick = function () {
+          bsModal.hide();
+          clearCartModal();
+          
+        };
+        cancelBtn.onclick = function () {
+          bsModal.hide();
+        };
+      });
+    }
+  });
+
+  // Clear cart function
+  function clearCartModal() {
+    clearCart()
+    const token = localStorage.getItem('token');
+    if (token) {
+      // If you have an API endpoint to clear cart on server, call it here
+      // Example: await clearCartOnServer(token);
+      // For now, just clear globalCartItems
+      globalCartItems = [];
+      // Optionally, call updateCartModal and updateNavbarCartCount
+      updateCartModal();
+      updateNavbarCartCount();
+    } else {
+      localStorage.removeItem('cart');
+      globalCartItems = [];
+      updateCartModal();
+      updateNavbarCartCount();
+    }
+    window.location.replace('/');
+  }

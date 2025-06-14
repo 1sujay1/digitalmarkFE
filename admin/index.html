@@ -206,5 +206,21 @@ if(btnResp.ok){
     discountInput.addEventListener("input", calculatePrice);
   </script>
   
+  <script>
+    (async function() {
+      try {
+        const res = await fetch(`${BASE_URL}/api/admin/check`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        });
+        const data = await res.json();
+        if (data?.status !=200 || !data?.data?.isAdmin) {
+          alert("You are not authorized to access this page.");
+          // window.location.href = "/";
+        }
+      } catch (e) {
+        window.location.href = "/";
+      }
+    })();
+  </script>
 </body>
 </html>

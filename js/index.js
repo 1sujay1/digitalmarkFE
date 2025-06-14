@@ -51,11 +51,7 @@
                   <div class="ltn__product-item text-center">
                       <div class="product-img">
                           <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal" onclick="populateQuickViewModal(this,event)" data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}'><img src="${product.thumbnail || 'img/product/1.png'}" alt="#"></a>
-                          <div class="product-badge">
-                              <ul>
-                                  <li class="badge-2">10%</li>
-                              </ul>
-                          </div>
+                          
                           <div class="product-hover-action product-hover-action-2">
                               <ul>
                                   <li class="ATC-parent-div" id='atc-btn-${product._id}'>
