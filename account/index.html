@@ -439,7 +439,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                 <td><img src="${order.thumbnail}" alt="${order.name}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;"></td>
                 <td>${order.name}</td>
                 <td>₹${order.price}</td>
-                <td>${order.date.slice(0,10)}</td>
+                <td>${order?.date?.slice?.(0,10)}</td>
                 <td><a href="${order.driveLink}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">View</a></td>
             </tr>
         `).join('');

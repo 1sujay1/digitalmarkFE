@@ -41,7 +41,7 @@ const renderHeaderMenu = () => {
                                         <li><a href="login.html">USD - US Dollar</a></li>
                                         <li><a href="wishlist.html">CAD - Canada Dollar</a></li>
                                         <li><a href="register.html">EUR - Euro</a></li>
-                                        <li><a href="account.html">GBP - British Pound</a></li>
+                                        <li><a href="/account">GBP - British Pound</a></li>
                                         <li><a href="wishlist.html">INR - Indian Rupee</a></li>
                                         <li><a href="wishlist.html">BDT - Bangladesh Taka</a></li>
                                         <li><a href="wishlist.html">JPY - Japan Yen</a></li>
@@ -79,7 +79,7 @@ const renderHeaderMenu = () => {
                                     <ul>
                                         <li><a href="login.html">Sign in</a></li>
                                         <li><a href="register.html">Register</a></li>
-                                        <li><a href="account.html">My Account</a></li>
+                                        <li><a href="/account">My Account</a></li>
                                         <li><a href="wishlist.html">Wishlist</a></li>
                                     </ul>
                                 </li>
@@ -661,7 +661,7 @@ function updateNavbarOnAuth() {
     ${user.name}
   </a>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <li><a class="dropdown-item" href="account.html">Profile</a></li>
+    <li><a class="dropdown-item" href="/account">Profile</a></li>
     <li><a class="dropdown-item" onclick=" localStorage.clear();location.reload()" href="#" id="logoutBtn">Logout</a></li>
   </ul>
 </div>
