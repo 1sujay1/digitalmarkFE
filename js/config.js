@@ -1,4 +1,5 @@
- const BASE_URL = "https://digitalmarkbe.onrender.com";
+ const BASE_URL = "http://srv875878.hstgr.cloud:5000";
+//  const BASE_URL = "http://localhost:5000";
 
  const getToken = () => {
     const token = localStorage.getItem('token');
