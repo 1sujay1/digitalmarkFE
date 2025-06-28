@@ -20,7 +20,7 @@ const renderHeaderMenu = () => {
                             </li>
                             <li class="menu-icon"><a href="/about">About</a>
                             </li>
-                            <li class="menu-icon"><a href="contact.html">Contact</a>
+                            <li class="menu-icon"><a href="/contact">Contact</a>
                             </li>
                             <li class="menu-icon"><a href="faq.html">Faq</a>
                             </li>
