@@ -1,4 +1,5 @@
- const BASE_URL = "http://srv875878.hstgr.cloud:5000";
+ const BASE_URL = "https://api.digitalmark.site";
+//  const BASE_URL = "http://srv875878.hstgr.cloud:5000";
 //  const BASE_URL = "http://localhost:5000";
 
  const getToken = () => {
