@@ -16,9 +16,9 @@ const renderHeaderMenu = () => {
                 <nav>
                     <div class="ltn__main-menu">
                         <ul>
-                            <li class="menu-icon"><a href="#">Home</a>
+                            <li class="menu-icon"><a href="/">Home</a>
                             </li>
-                            <li class="menu-icon"><a href="about.html">About</a>
+                            <li class="menu-icon"><a href="/about">About</a>
                             </li>
                             <li class="menu-icon"><a href="contact.html">Contact</a>
                             </li>
@@ -32,7 +32,7 @@ const renderHeaderMenu = () => {
                 </nav>
             </div>
         </div>
-        <div class="col">
+        <div class="col headerMenuOptionsColumn">
             <div class="ltn__header-options">
                 <ul>
                     <li class="d-none">

@@ -4545,7 +4545,11 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 ---------------------------------------------- */
 .ltn__header-options > ul {
   padding: 0;
-  margin: 0; }
+  margin: 0; 
+display: flex;
+justify-content: center;
+align-items: center;
+}
   .ltn__header-options > ul > li {
     display: inline-block;
     margin-right: 15px;
@@ -13054,4 +13058,9 @@ Custom CSS START
 }
 #auth_modal{
  z-index: 999999;
+}
+.headerMenuOptionsColumn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
