@@ -1,0 +1,170 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Fiama - Flower Shop eCommerce HTML Template</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="/css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+
+    <style>
+      .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1{
+            color: #2a2a2a;
+            font-size: 32px;
+            font-weight: bold;
+
+        }
+
+        h2 {
+            color: #2a2a2a;
+            font-size: 24px;
+            font-weight: bold;
+            
+        }
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="body-wrapper">
+    <!-- HEADER AREA START (Dynamic) -->
+    <header id="headerMenu"></header>
+    <!-- HEADER AREA END -->
+    <!-- Utilize Mobile Menu Start (Dynamic) -->
+    <div id="ltn__utilize-mobile-menu" class="ltn__utilize ltn__utilize-mobile-menu"></div>
+    <!-- Utilize Mobile Menu End -->
+    <div class="ltn__utilize-overlay"></div>
+
+    <!-- BREADCRUMB AREA START -->
+    <div class="ltn__breadcrumb-area ltn__breadcrumb-area-4 ltn__breadcrumb-color-white---">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ltn__breadcrumb-inner text-center">
+                        <h1 class="ltn__page-title">Privacy & Policy</h1>
+                        <div class="ltn__breadcrumb-list">
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li>policy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BREADCRUMB AREA END -->
+
+
+ <div class="container">
+        <h1>Privacy Policy</h1>
+        <p>Welcome to DigitalMark.site. We are committed to protecting your privacy and ensuring your experience with us is safe and secure.</p>
+
+        <h2>1. Information We Collect</h2>
+        <p>We may collect personal information such as:</p>
+        <ul>
+            <li>Your name and contact details (email, phone number)</li>
+            <li>Account information if you register</li>
+            <li>Website usage data (through cookies and analytics)</li>
+        </ul>
+
+        <h2>2. How We Use Your Information</h2>
+        <p>Your information is used for the following purposes:</p>
+        <ul>
+            <li>To provide, operate, and improve our services</li>
+            <li>To respond to your inquiries or support requests</li>
+            <li>To send promotional emails (if you opt-in)</li>
+            <li>To analyze website performance and usage trends</li>
+        </ul>
+
+        <h2>3. Cookies & Tracking</h2>
+        <p>We use cookies to enhance your browsing experience. You can control cookie preferences through your browser settings.</p>
+
+        <h2>4. Data Sharing & Security</h2>
+        <p>We do not sell or rent your personal data to third parties. We may share data with trusted partners to operate the website or comply with legal obligations. We implement security measures to protect your data.</p>
+
+        <h2>5. Third-Party Links</h2>
+        <p>Our website may contain links to external sites. We are not responsible for their privacy practices. Please review their policies separately.</p>
+
+        <h2>6. Your Rights</h2>
+        <p>You have the right to:</p>
+        <ul>
+            <li>Access, update, or delete your personal data</li>
+            <li>Opt-out of promotional communications</li>
+            <li>Request information on how your data is processed</li>
+        </ul>
+
+        <h2>7. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with a revised date.</p>
+
+        <h2>8. Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+        <p>Email: support@digitalmark.site</p>
+    </div>
+
+    <!-- FOOTER AREA START (Dynamic) -->
+    <footer id="footerMenu"></footer>
+    <!-- FOOTER AREA END -->
+
+  
+</div>
+<script>
+  // Ensure cart modal open logic is always attached after header render
+  document.addEventListener("DOMContentLoaded", async function() {
+    if (typeof renderHeaderMenu === 'function') renderHeaderMenu();
+    // Wait for cart modal to be in DOM, then update it
+    setTimeout(async function() {
+      if (typeof updateCartModal === 'function') await updateCartModal();
+      const cartMenuToggle = document.querySelectorAll('.mini-cart-icon a, .ltn__utilize-toggle');
+      cartMenuToggle.forEach(toggle => {
+        toggle.addEventListener('click', async function (e) {
+          e.preventDefault();
+          if (typeof openCartModal === 'function') {
+            await openCartModal(e);
+          }
+        });
+      });
+    }, 200); // Wait for header/cart modal render
+  });
+</script>
+<!-- All JS Plugins -->
+<script src="/js/plugins.js"></script>
+<!-- Main JS -->
+<script src="/js/main.js"></script>
+  <!-- Custom JS -->
+<script src="/js/api.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/common.js"></script>
+
+</body>
+</html>
+

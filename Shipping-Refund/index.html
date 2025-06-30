@@ -1,0 +1,152 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Fiama - Flower Shop eCommerce HTML Template</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="/css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+       
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1  {
+            color: black;
+            font-size: 32px;
+            font-weight: bold;
+            
+        }
+
+         h2 {
+            color: #2a2a2a;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="body-wrapper">
+    <!-- HEADER AREA START (Dynamic) -->
+    <header id="headerMenu"></header>
+    <!-- HEADER AREA END -->
+    <!-- Utilize Mobile Menu Start (Dynamic) -->
+    <div id="ltn__utilize-mobile-menu" class="ltn__utilize ltn__utilize-mobile-menu"></div>
+    <!-- Utilize Mobile Menu End -->
+    <div class="ltn__utilize-overlay"></div>
+
+    <!-- BREADCRUMB AREA START -->
+    <div class="ltn__breadcrumb-area ltn__breadcrumb-area-4 ltn__breadcrumb-color-white---">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ltn__breadcrumb-inner text-center">
+                        <h1 class="ltn__page-title">Shipping & Refund Policy</h1>
+                        <div class="ltn__breadcrumb-list">
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li>Shipping-Refund</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BREADCRUMB AREA END -->
+
+
+  <div class="container">
+        <h1>Shipping & Refund Policy</h1>
+        <p>Thank you for choosing DigitalMark.site. As we provide digital products and services, please read our Shipping and Refund Policy carefully before making a purchase.</p>
+
+        <h2>1. Delivery of Digital Products</h2>
+        <p>All our products are digital in nature, including but not limited to downloadable files, templates, e-books, digital courses, and other resources.</p>
+        <p>Once payment is successfully processed, you will receive access to your purchased digital product via email or through your account dashboard on our website within a few minutes.</p>
+        <p>If you do not receive your product within 24 hours, please contact us immediately at support@digitalmark.site.</p>
+
+        <h2>2. No Shipping Required</h2>
+        <p>As we offer only digital products, no physical shipping is applicable. You will receive your product electronically.</p>
+
+        <h2>3. Refund Policy</h2>
+        <p>Due to the nature of digital products, all sales are final. We do not offer refunds, returns, or exchanges once a product is delivered or accessed, unless otherwise stated by law.</p>
+
+        <h2>4. Exceptional Circumstances</h2>
+        <p>We may, at our sole discretion, review refund requests under the following exceptional conditions:</p>
+        <ul>
+            <li>Duplicate payment for the same product</li>
+            <li>Technical issues preventing access to the product, which cannot be resolved by our support team</li>
+        </ul>
+
+        <h2>5. Professional Disclaimer</h2>
+        <p>All content, resources, and products provided on DigitalMark.site are designed for informational, educational, and marketing purposes. We do not guarantee specific results. It is the responsibility of the customer to assess the suitability of the product for their personal or business needs before making a purchase.</p>
+
+        <h2>6. Contact Us</h2>
+        <p>If you have questions regarding our Shipping & Refund Policy, please contact our professional support team at:</p>
+        <p>Email: support@digitalmark.site</p>
+
+    <!-- FOOTER AREA START (Dynamic) -->
+    <footer id="footerMenu"></footer>
+    <!-- FOOTER AREA END -->
+
+  
+</div>
+<script>
+  // Ensure cart modal open logic is always attached after header render
+  document.addEventListener("DOMContentLoaded", async function() {
+    if (typeof renderHeaderMenu === 'function') renderHeaderMenu();
+    // Wait for cart modal to be in DOM, then update it
+    setTimeout(async function() {
+      if (typeof updateCartModal === 'function') await updateCartModal();
+      const cartMenuToggle = document.querySelectorAll('.mini-cart-icon a, .ltn__utilize-toggle');
+      cartMenuToggle.forEach(toggle => {
+        toggle.addEventListener('click', async function (e) {
+          e.preventDefault();
+          if (typeof openCartModal === 'function') {
+            await openCartModal(e);
+          }
+        });
+      });
+    }, 200); // Wait for header/cart modal render
+  });
+</script>
+<!-- All JS Plugins -->
+<script src="/js/plugins.js"></script>
+<!-- Main JS -->
+<script src="/js/main.js"></script>
+  <!-- Custom JS -->
+<script src="/js/api.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/common.js"></script>
+
+</body>
+</html>
+
