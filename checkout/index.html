@@ -249,7 +249,7 @@ const options = {
           handler: function (response) {
             // console.log("Payment Response:", response);
             // Call verify-payment API
-            fetch(`${BASE_URL}/api/verify-payment`, {
+            fetch(`${BASE_URL}/api/v1/verify-payment`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -296,7 +296,7 @@ rzp.on('payment.failed', async function (response) {
    if (hasFailedOnce) return;
   hasFailedOnce = true;
   try {
-    await fetch(`${BASE_URL}/api/payment-failed`, {
+    await fetch(`${BASE_URL}/v1/payment-failed`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
