@@ -75,7 +75,8 @@
                           </div>
                       </div>
                       <div class="product-info">
-                          <h2 class="product-title"><a href="product-details.html">${product.name}</a></h2>
+                          <h2 class="product-title"><a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal" onclick="populateQuickViewModal(this,event)" data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}'>${product.name}</a></h2>
+                         <button class="product-title"><a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal" onclick="populateQuickViewModal(this,event)" data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}'>View Details</a></button>
                           <div class="product-price">
                               <span>₹${product.price}</span>
                               <del>₹${product.slashedPrice}</del>
@@ -187,8 +188,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             const modal = document.getElementById('add_to_cart_modal');
             if (modal) {
                 modal.querySelector('.modal-product-img img').src = product?.thumbnail || 'img/product/1.png';
-                modal.querySelector('.modal-product-info h5 a').textContent = product?.name;
-                modal.querySelector('.modal-product-info h5 a').href = `product-details.html?id=${product?.id}`;
+                modal.querySelector('.modal-product-info h5').textContent = product?.name;
+                // modal.querySelector('.modal-product-info h5 a').href = `product-details.html?id=${product?.id}`;
                 modal.querySelector('.modal-product-info .added-cart').innerHTML = `<i class="fas fa-check-circle" style="color: #28a745; font-size: 20px;"></i> Successfully added to your Cart`;
                 // modal.querySelector('.modal-product-info .btn-wrapper a:first-child').href = 'cart.html';
                 // modal.querySelector('.modal-product-info .btn-wrapper a:last-child').href = 'checkout.html';

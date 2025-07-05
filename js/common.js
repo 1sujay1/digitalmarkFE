@@ -22,9 +22,9 @@ const renderHeaderMenu = () => {
                             </li>
                             <li class="menu-icon"><a href="/contact">Contact</a>
                             </li>
-                            <li class="menu-icon"><a href="faq.html">Faq</a>
+                            <li class="menu-icon"><a href="/faq">Faq</a>
                             </li>
-                            <li class="menu-icon"><a href="blog.html">Blog</a>
+                            <li class="menu-icon"><a href="/blog">Blog</a>
                             </li>
                            
                         </ul>
@@ -848,3 +848,20 @@ document.querySelector('.ltn__utilize.ltn__utilize-cart-menu.cartModal').classLi
     }
     window.location.replace('/');
   }
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const protectedLinks = document.querySelectorAll('.protected-link');
+    protectedLinks.forEach(link => {
+      link.addEventListener('click', function (e) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          e.preventDefault(); // stop the link navigation
+        const authModal = new bootstrap.Modal(document.getElementById('auth_modal'));
+          document.querySelector('.ltn__utilize.ltn__utilize-cart-menu.cartModal').classList.remove('ltn__utilize-open');
+          authModal.show();
+        }
+        // else: token exists → allow default navigation
+      });
+    });
+  });
