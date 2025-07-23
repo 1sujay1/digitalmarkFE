@@ -20,27 +20,31 @@
     <!-- Responsive css -->
     <link rel="stylesheet" href="/css/responsive.css">
     <style>
-       
-        .container {
+
+        .body{
+             width:100%
+        }
+      .container {
             width: 90%;
             max-width: 1200px;
             margin: 20px auto;
-            background: #fff;
+            /* background: #fff; */
             padding: 30px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             border-radius: 8px;
         }
-        h1  {
-            color: black;
+        h1{
+            color: #2a2a2a;
             font-size: 32px;
             font-weight: bold;
-            
+
         }
 
-         h2 {
+        h2 {
             color: #2a2a2a;
             font-size: 24px;
             font-weight: bold;
+            
         }
         p {
             line-height: 1.6;
@@ -49,6 +53,8 @@
         ul {
             margin-left: 20px;
         }
+
+
     </style>
 
 </head>
@@ -112,13 +118,103 @@
         <h2>6. Contact Us</h2>
         <p>If you have questions regarding our Shipping & Refund Policy, please contact our professional support team at:</p>
         <p>Email: support@digitalmark.site</p>
+  </div>
 
     <!-- FOOTER AREA START (Dynamic) -->
-    <footer id="footerMenu"></footer>
+    <footer class="ltn__footer-area  plr--5---">
+    <div class="footer-top-area section-bg-5">
+        <div class="container">
+            <div class="row">
+
+                <!-- About Our Shop - First Row -->
+                <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+    <div class="footer-widget footer-about-widget">
+        <!-- <h4 class="footer-title">About Our Shop</h4> -->
+        <div class="footer-logo">
+            <div class="site-logo">
+                <img src="/img/logo1.png" alt="Logo">
+            </div>
+        </div>
+        <p>Discover ready-to-use digital products, tools, and templates at DigitalMark.site. Instant downloads, 
+            zero hassle. Perfect for marketers, entrepreneurs, and creators to grow, launch, and scale their digital success today.</p>
+        <div class="footer-payment-img">
+            <img src="/img/icons/payment-6.png" alt="Payment Image">
+        </div>
+    </div>
+</div>
+
+<div class="col-xl-2 col-md-6 col-sm-6 col-12">
+    <div class="footer-widget footer-menu-widget clearfix">
+        <h4 class="footer-title">My Account</h4>
+        <div class="footer-menu">
+            <ul>
+                <li><a href="account.html">My account</a></li>
+                <li><a href="/checkout">   Checkout</a></li>
+                <li><a href="contact.html">Contact us</a></li>
+                <li><a href="wishlist.html">Wishlist</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-xl-2 col-md-6 col-sm-6 col-12">
+    <div class="footer-widget footer-menu-widget clearfix">
+        <h4 class="footer-title">Customer Service</h4>
+        <div class="footer-menu">
+            <ul>
+                <li><a href="/Shipping-Refund/index.html">Shipping Policy</a></li>
+                <li><a href="Shipping-Refund/index.html">Returns & Refunds</a></li>
+                <li><a href="/Privacy-policy/index.html">Privacy & Policy</a></li>
+                <li><a href="Terms&Condition/index.html">Terms and Conditions</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 4th Column with Image -->
+<div class="col-xl-4 col-md-6 col-sm-6 col-12">
+    <div class="footer-widget">
+        <h4 class="footer-title"> No shipping, no delays, 100% digital</h4>
+        <div class="footer-gallery">
+            <img src="/img/350120.png" alt="Footer Gallery Image" style="max-width: 100%;">
+        </div>
+    </div>
+</div>
+</div>
+    <!-- Copyright Area -->
+    <div class="ltn__copyright-area ltn__copyright-2 section-bg-5">
+        <div class="container ltn__border-top-2">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <div class="footer-copyright-left">
+                        <div class="ltn__copyright-design clearfix">
+                            <p>&copy; <span class="current-year"></span> -Copyright @ Digital Mark | <a href="https://digitalgrowthx.in" target="_blank">Made by Digital GrowthX</a></p>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12 align-self-center">
+                    <div class="footer-copyright-right text-end">
+                        <div class="ltn__social-media">
+                            <ul>
+                                <li><a href="#" title="Facebook"><i class="icon-social-facebook"></i></a></li>
+                                <li><a href="#" title="Twitter"><i class="icon-social-twitter"></i></a></li>
+                                <li><a href="#" title="Pinterest"><i class="icon-social-pinterest"></i></a></li>
+                                <li><a href="#" title="Instagram"><i class="icon-social-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
     <!-- FOOTER AREA END -->
 
-  
-</div>
+
 <script>
   // Ensure cart modal open logic is always attached after header render
   document.addEventListener("DOMContentLoaded", async function() {

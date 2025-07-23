@@ -18,6 +18,7 @@ const renderHeaderMenu = () => {
                         <ul>
                             <li class="menu-icon"><a href="/">Home</a>
                             </li>
+
                             <li class="menu-icon"><a href="/about">About</a>
                             </li>
                             <li class="menu-icon"><a href="/contact">Contact</a>
@@ -26,6 +27,8 @@ const renderHeaderMenu = () => {
                             </li>
                             <li class="menu-icon"><a href="/blog">Blog</a>
                             </li>
+                            
+                             
                            
                         </ul>
                     </div>
