@@ -19,14 +19,11 @@ const renderHeaderMenu = () => {
                             <li class="menu-icon"><a href="/">Home</a>
                             </li>
 
-                            <li class="menu-icon"><a href="/about">About</a>
+                            <li class="menu-icon"><a href="/">Shop</a>
                             </li>
-                            <li class="menu-icon"><a href="/contact">Contact</a>
+                            <li class="menu-icon"><a href="/contact">Contact Us</a>
                             </li>
-                            <li class="menu-icon"><a href="/faq">Faq</a>
-                            </li>
-                            <li class="menu-icon"><a href="/blog">Blog</a>
-                            </li>
+                            
                             
                              
                            
