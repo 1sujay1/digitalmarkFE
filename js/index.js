@@ -234,12 +234,66 @@ document.addEventListener('DOMContentLoaded', async function () {
           // alert('Quick View button clicked');
             const product = JSON.parse(productTag.getAttribute('data-product'));
             const modal = document.getElementById('quick_view_modal');
+            const modalHTML = `
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                         <div class="ltn__quick-view-modal-inner">
+                             <div class="modal-product-item">
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="modal-product-img">
+                                            <img src="${product.thumbnail || 'img/product/1.png'}" alt="#">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="modal-product-info shop-details-info pl-0">
+                                            <h3>${product.name}</h3>
+                                            <div class="product-price-ratting mb-20">
+                                                <ul>
+                                                    <li>
+                                                        <div class="product-price">
+                                                            <span>₹${product.price}</span>
+                                                            <del>₹${product.slashedPrice}</del>
+                                                        </div>
+                                                    </li>
+                                                    
+                                                </ul>
+                                            </div>
+                                            <div class="modal-product-brief">
+                                                <p>${product.description ?? 'No description available.'}
+                                            </div>
+                                            
+                                            <div class="ltn__product-details-menu-2 product-cart-wishlist-btn mb-30">
+                                                <ul class="addToCardDiv">
+                                                    <li>
+                                                        <a href="#" class="theme-btn-1 btn btn-effect-1" title="Add to Cart" onclick="handleAddToCartClick2(this, event)" >
+                                                            <span>ADD TO CART</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                         
+                                            <div class="ltn__safe-checkout">
+                                                <h5>Guaranteed Safe Checkout</h5>
+                                                <img src="/img/icons/payment-2.png" alt="Payment Image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            `
             if (modal) { 
-                modal.querySelector('.modal-product-img img').src = product.thumbnail || 'img/product/1.png';
-                modal.querySelector('.modal-product-info h3').textContent = product.name;
-                modal.querySelector('.modal-product-info .product-price span').textContent = `₹${product.price}`;
-                modal.querySelector('.modal-product-info .product-price del').textContent = `₹${product.slashedPrice}`;
-                modal.querySelector('.modal-product-info .modal-product-brief p').textContent = product.description || 'No description available.';
+                
 
                 const addToCartDiv = modal.querySelector('.addToCardDiv');
                 const cartItemsData = await getCartItems();
@@ -268,6 +322,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     `;
                   }
                 }
+                modal.innerHTML = modalHTML; 
             }
         }
 
