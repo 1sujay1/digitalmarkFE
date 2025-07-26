@@ -6141,7 +6141,7 @@ align-items: center;
 
 /* slide-item-8 */
 .ltn__slide-item-8 {
-  min-height: 700px;
+  min-height: 400px;
   height: calc(100vh - 190px);
   display: -webkit-box;
   display: -ms-flexbox;
