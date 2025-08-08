@@ -1,494 +1,712 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="zxx">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>Fiama - Flower Shop eCommerce HTML Template</title>
     <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Place favicon.png in the root directory -->
     <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
     <!-- Font Icons css -->
-    <link rel="stylesheet" href="/css/font-icons.css">
+    <link rel="stylesheet" href="/css/font-icons.css" />
     <!-- plugins css -->
-    <link rel="stylesheet" href="/css/plugins.css">
+    <link rel="stylesheet" href="/css/plugins.css" />
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css" />
     <!-- Responsive css -->
-    <link rel="stylesheet" href="/css/responsive.css">
-</head>
+    <link rel="stylesheet" href="/css/responsive.css" />
+  </head>
 
-<body>
+  <body>
     <!--[if lte IE 9]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+      <p class="browserupgrade">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="https://browsehappy.com/">upgrade your browser</a> to improve
+        your experience and security.
+      </p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
 
-<!-- Body main wrapper start -->
-<div class="body-wrapper">
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
+      <!-- HEADER AREA START (Dynamic) -->
+      <header id="headerMenu"></header>
+      <!-- HEADER AREA END -->
+      <!-- Utilize Mobile Menu Start (Dynamic) -->
+      <div
+        id="ltn__utilize-mobile-menu"
+        class="ltn__utilize ltn__utilize-mobile-menu"
+      ></div>
+      <!-- Utilize Mobile Menu End -->
+      <div class="ltn__utilize-overlay"></div>
 
-    <!-- HEADER AREA START (Dynamic) -->
-    <header id="headerMenu"></header>
-    <!-- HEADER AREA END -->
-    <!-- Utilize Mobile Menu Start (Dynamic) -->
-    <div id="ltn__utilize-mobile-menu" class="ltn__utilize ltn__utilize-mobile-menu"></div>
-    <!-- Utilize Mobile Menu End -->
-    <div class="ltn__utilize-overlay"></div>
-
-    <!-- BREADCRUMB AREA START -->
-    <div class="ltn__breadcrumb-area ltn__breadcrumb-area-4 ltn__breadcrumb-color-white---">
+      <!-- BREADCRUMB AREA START -->
+      <div
+        class="ltn__breadcrumb-area ltn__breadcrumb-area-4 ltn__breadcrumb-color-white---"
+      >
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ltn__breadcrumb-inner text-center">
-                        <h1 class="ltn__page-title">My Account</h1>
-                        <div class="ltn__breadcrumb-list">
-                            <ul>
-                                <li><a href="/">Home</a></li>
-                                <li>My Account</li>
-                            </ul>
-                        </div>
-                    </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="ltn__breadcrumb-inner text-center">
+                <h1 class="ltn__page-title">My Account</h1>
+                <div class="ltn__breadcrumb-list">
+                  <ul>
+                    <li><a href="/">Home</a></li>
+                    <li>My Account</li>
+                  </ul>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-    <!-- BREADCRUMB AREA END -->
+      </div>
+      <!-- BREADCRUMB AREA END -->
 
-    <!-- WISHLIST AREA START -->
-    <div class="liton__wishlist-area pb-50">
+      <!-- WISHLIST AREA START -->
+      <div class="liton__wishlist-area pb-50">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- PRODUCT TAB AREA START -->
-                    <div class="ltn__product-tab-area">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="ltn__tab-menu-list mb-50">
-                                        <div class="nav">
-                                            <!-- <a class="active show" data-bs-toggle="tab" href="#liton_tab_1_1">Dashboard <i class="fas fa-home"></i></a> -->
-                                            <a data-bs-toggle="tab"class="active show"  href="#liton_tab_1_2">Orders <i class="fas fa-file-alt"></i></a>
-                                            <!-- <a data-bs-toggle="tab" href="#liton_tab_1_3">Downloads <i class="fas fa-arrow-down"></i></a>
+          <div class="row">
+            <div class="col-lg-12">
+              <!-- PRODUCT TAB AREA START -->
+              <div class="ltn__product-tab-area">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="ltn__tab-menu-list mb-50">
+                        <div class="nav">
+                          <!-- <a class="active show" data-bs-toggle="tab" href="#liton_tab_1_1">Dashboard <i class="fas fa-home"></i></a> -->
+                          <a
+                            data-bs-toggle="tab"
+                            class="active show"
+                            href="#liton_tab_1_2"
+                            >Orders <i class="fas fa-file-alt"></i
+                          ></a>
+                          <a data-bs-toggle="tab" href="#liton_tab_1_pending"
+                            >Pending <i class="fas fa-hourglass-half"></i
+                          ></a>
+                          <a data-bs-toggle="tab" href="#liton_tab_1_failed"
+                            >Failed <i class="fas fa-times-circle"></i
+                          ></a>
+                          <!-- <a data-bs-toggle="tab" href="#liton_tab_1_3">Downloads <i class="fas fa-arrow-down"></i></a>
                                             <a data-bs-toggle="tab" href="#liton_tab_1_4">address <i class="fas fa-map-marker-alt"></i></a>
                                             <a data-bs-toggle="tab" href="#liton_tab_1_5">Account Details <i class="fas fa-user"></i></a>
                                             <a href="login.html">Logout <i class="fas fa-sign-out-alt"></i></a> -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="tab-content">
-                                        <!-- <div class="tab-pane fade active show" id="liton_tab_1_1">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-8">
+                      <div class="tab-content">
+                        <!-- <div class="tab-pane fade active show" id="liton_tab_1_1">
                                             <div class="ltn__myaccount-tab-content-inner">
                                                 <p>Hello <strong>UserName</strong> (not <strong>UserName</strong>? <small><a href="login-register.html">Log out</a></small> )</p>
                                                 <p>From your account dashboard you can view your <span>recent orders</span>, manage your <span>shipping and billing addresses</span>, and <span>edit your password and account details</span>.</p>
                                             </div>
                                         </div> -->
-                                        <div class="tab-pane fade active show" id="liton_tab_1_2">
-                                            <div class="ltn__myaccount-tab-content-inner">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Image</th>
-                                                                <th>Title</th>
-                                                                <th>Price</th>
-                                                                <th>Date</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="orders-table-body">
-                                                            <!-- Orders will be dynamically inserted here -->
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="liton_tab_1_3">
-                                            <div class="ltn__myaccount-tab-content-inner">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Product</th>
-                                                                <th>Date</th>
-                                                                <th>Expire</th>
-                                                                <th>Download</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Carsafe - Car Service PSD Template</td>
-                                                                <td>Nov 22, 2020</td>
-                                                                <td>Yes</td>
-                                                                <td><a href="#"><i class="far fa-arrow-to-bottom mr-1"></i> Download File</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Carsafe - Car Service HTML Template</td>
-                                                                <td>Nov 10, 2020</td>
-                                                                <td>Yes</td>
-                                                                <td><a href="#"><i class="far fa-arrow-to-bottom mr-1"></i> Download File</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Carsafe - Car Service WordPress Theme</td>
-                                                                <td>Nov 12, 2020</td>
-                                                                <td>Yes</td>
-                                                                <td><a href="#"><i class="far fa-arrow-to-bottom mr-1"></i> Download File</a></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="liton_tab_1_4">
-                                            <div class="ltn__myaccount-tab-content-inner">
-                                                <p>The following addresses will be used on the checkout page by default.</p>
-                                                <div class="row">
-                                                    <div class="col-md-6 col-12 learts-mb-30">
-                                                        <h4>Billing Address <small><a href="#">edit</a></small></h4>
-                                                        <address>
-                                                            <p><strong>Alex Tuntuni</strong></p>
-                                                            <p>1355 Market St, Suite 900 <br>
-                                                                San Francisco, CA 94103</p>
-                                                            <p>Mobile: (123) 456-7890</p>
-                                                        </address>
-                                                    </div>
-                                                    <div class="col-md-6 col-12 learts-mb-30">
-                                                        <h4>Shipping Address <small><a href="#">edit</a></small></h4>
-                                                        <address>
-                                                            <p><strong>Alex Tuntuni</strong></p>
-                                                            <p>1355 Market St, Suite 900 <br>
-                                                                San Francisco, CA 94103</p>
-                                                            <p>Mobile: (123) 456-7890</p>
-                                                        </address>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="liton_tab_1_5">
-                                            <div class="ltn__myaccount-tab-content-inner mb-50">
-                                                <p>The following addresses will be used on the checkout page by default.</p>
-                                                <div class="ltn__form-box">
-                                                    <form action="#">
-                                                        <div class="row mb-50">
-                                                            <div class="col-md-6">
-                                                                <label>First name:</label>
-                                                                <input type="text" name="ltn__name">
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label>Last name:</label>
-                                                                <input type="text" name="ltn__lastname">
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label>Display Name:</label>
-                                                                <input type="text" name="ltn__lastname" placeholder="Ethan">
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label>Display Email:</label>
-                                                                <input type="email" name="ltn__lastname" placeholder="example@example.com">
-                                                            </div>
-                                                        </div>
-                                                        <fieldset>
-                                                            <legend>Password change</legend>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label>Current password (leave blank to leave unchanged):</label>
-                                                                    <input type="password" name="ltn__name">
-                                                                    <label>New password (leave blank to leave unchanged):</label>
-                                                                    <input type="password" name="ltn__lastname">
-                                                                    <label>Confirm new password:</label>
-                                                                    <input type="password" name="ltn__lastname">
-                                                                </div>
-                                                            </div>
-                                                        </fieldset>
-                                                        <div class="btn-wrapper">
-                                                            <button type="submit" class="btn theme-btn-1 btn-effect-1 text-uppercase">Save Changes</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <div
+                          class="tab-pane fade active show"
+                          id="liton_tab_1_2"
+                        >
+                          <div class="ltn__myaccount-tab-content-inner">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Price</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="orders-table-body">
+                                  <!-- Orders will be dynamically inserted here -->
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="liton_tab_1_pending">
+                          <div class="ltn__myaccount-tab-content-inner">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Price</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="pending-orders-table-body">
+                                  <!-- Pending orders will be dynamically inserted here -->
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="liton_tab_1_failed">
+                          <div class="ltn__myaccount-tab-content-inner">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Price</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="failed-orders-table-body">
+                                  <!-- Failed orders will be dynamically inserted here -->
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="liton_tab_1_3">
+                          <div class="ltn__myaccount-tab-content-inner">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Product</th>
+                                    <th>Date</th>
+                                    <th>Expire</th>
+                                    <th>Download</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>Carsafe - Car Service PSD Template</td>
+                                    <td>Nov 22, 2020</td>
+                                    <td>Yes</td>
+                                    <td>
+                                      <a href="#"
+                                        ><i
+                                          class="far fa-arrow-to-bottom mr-1"
+                                        ></i>
+                                        Download File</a
+                                      >
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Carsafe - Car Service HTML Template</td>
+                                    <td>Nov 10, 2020</td>
+                                    <td>Yes</td>
+                                    <td>
+                                      <a href="#"
+                                        ><i
+                                          class="far fa-arrow-to-bottom mr-1"
+                                        ></i>
+                                        Download File</a
+                                      >
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      Carsafe - Car Service WordPress Theme
+                                    </td>
+                                    <td>Nov 12, 2020</td>
+                                    <td>Yes</td>
+                                    <td>
+                                      <a href="#"
+                                        ><i
+                                          class="far fa-arrow-to-bottom mr-1"
+                                        ></i>
+                                        Download File</a
+                                      >
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="liton_tab_1_4">
+                          <div class="ltn__myaccount-tab-content-inner">
+                            <p>
+                              The following addresses will be used on the
+                              checkout page by default.
+                            </p>
+                            <div class="row">
+                              <div class="col-md-6 col-12 learts-mb-30">
+                                <h4>
+                                  Billing Address
+                                  <small><a href="#">edit</a></small>
+                                </h4>
+                                <address>
+                                  <p><strong>Alex Tuntuni</strong></p>
+                                  <p>
+                                    1355 Market St, Suite 900 <br />
+                                    San Francisco, CA 94103
+                                  </p>
+                                  <p>Mobile: (123) 456-7890</p>
+                                </address>
+                              </div>
+                              <div class="col-md-6 col-12 learts-mb-30">
+                                <h4>
+                                  Shipping Address
+                                  <small><a href="#">edit</a></small>
+                                </h4>
+                                <address>
+                                  <p><strong>Alex Tuntuni</strong></p>
+                                  <p>
+                                    1355 Market St, Suite 900 <br />
+                                    San Francisco, CA 94103
+                                  </p>
+                                  <p>Mobile: (123) 456-7890</p>
+                                </address>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="liton_tab_1_5">
+                          <div class="ltn__myaccount-tab-content-inner mb-50">
+                            <p>
+                              The following addresses will be used on the
+                              checkout page by default.
+                            </p>
+                            <div class="ltn__form-box">
+                              <form action="#">
+                                <div class="row mb-50">
+                                  <div class="col-md-6">
+                                    <label>First name:</label>
+                                    <input type="text" name="ltn__name" />
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label>Last name:</label>
+                                    <input type="text" name="ltn__lastname" />
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label>Display Name:</label>
+                                    <input
+                                      type="text"
+                                      name="ltn__lastname"
+                                      placeholder="Ethan"
+                                    />
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label>Display Email:</label>
+                                    <input
+                                      type="email"
+                                      name="ltn__lastname"
+                                      placeholder="example@example.com"
+                                    />
+                                  </div>
+                                </div>
+                                <fieldset>
+                                  <legend>Password change</legend>
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                      <label
+                                        >Current password (leave blank to leave
+                                        unchanged):</label
+                                      >
+                                      <input type="password" name="ltn__name" />
+                                      <label
+                                        >New password (leave blank to leave
+                                        unchanged):</label
+                                      >
+                                      <input
+                                        type="password"
+                                        name="ltn__lastname"
+                                      />
+                                      <label>Confirm new password:</label>
+                                      <input
+                                        type="password"
+                                        name="ltn__lastname"
+                                      />
                                     </div>
+                                  </div>
+                                </fieldset>
+                                <div class="btn-wrapper">
+                                  <button
+                                    type="submit"
+                                    class="btn theme-btn-1 btn-effect-1 text-uppercase"
+                                  >
+                                    Save Changes
+                                  </button>
                                 </div>
+                              </form>
                             </div>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                    <!-- PRODUCT TAB AREA END -->
+                  </div>
                 </div>
+              </div>
+              <!-- PRODUCT TAB AREA END -->
             </div>
+          </div>
         </div>
-    </div>
-    <!-- WISHLIST AREA START -->
+      </div>
+      <!-- WISHLIST AREA START -->
 
-    <!-- BRAND LOGO AREA START -->
-    <div class="ltn__brand-logo-area  ltn__brand-logo-1 section-bg-1 pt-35 pb-35 plr--5">
+      <!-- BRAND LOGO AREA START -->
+      <div
+        class="ltn__brand-logo-area ltn__brand-logo-1 section-bg-1 pt-35 pb-35 plr--5"
+      >
         <div class="container-fluid">
-            <div class="row ltn__brand-logo-active">
-                <div class="col-lg-12">
-                    <div class="ltn__brand-logo-item">
-                        <img src="/img/brand-logo/1.png" alt="Brand Logo">
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="ltn__brand-logo-item">
-                        <img src="/img/brand-logo/2.png" alt="Brand Logo">
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="ltn__brand-logo-item">
-                        <img src="/img/brand-logo/3.png" alt="Brand Logo">
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="ltn__brand-logo-item">
-                        <img src="/img/brand-logo/4.png" alt="Brand Logo">
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="ltn__brand-logo-item">
-                        <img src="/img/brand-logo/5.png" alt="Brand Logo">
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="ltn__brand-logo-item">
-                        <img src="/img/brand-logo/1.png" alt="Brand Logo">
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="ltn__brand-logo-item">
-                        <img src="/img/brand-logo/2.png" alt="Brand Logo">
-                    </div>
-                </div>
+          <div class="row ltn__brand-logo-active">
+            <div class="col-lg-12">
+              <div class="ltn__brand-logo-item">
+                <img src="/img/brand-logo/1.png" alt="Brand Logo" />
+              </div>
             </div>
+            <div class="col-lg-12">
+              <div class="ltn__brand-logo-item">
+                <img src="/img/brand-logo/2.png" alt="Brand Logo" />
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="ltn__brand-logo-item">
+                <img src="/img/brand-logo/3.png" alt="Brand Logo" />
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="ltn__brand-logo-item">
+                <img src="/img/brand-logo/4.png" alt="Brand Logo" />
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="ltn__brand-logo-item">
+                <img src="/img/brand-logo/5.png" alt="Brand Logo" />
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="ltn__brand-logo-item">
+                <img src="/img/brand-logo/1.png" alt="Brand Logo" />
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="ltn__brand-logo-item">
+                <img src="/img/brand-logo/2.png" alt="Brand Logo" />
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-    <!-- BRAND LOGO AREA END -->
+      </div>
+      <!-- BRAND LOGO AREA END -->
 
-    <!-- FOOTER AREA START -->
-    <footer class="ltn__footer-area ">
-        <div class="footer-top-area  section-bg-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-2 col-md-6 col-sm-6 col-12">
-                        <div class="footer-widget footer-menu-widget clearfix">
-                            <h4 class="footer-title">My Accoout</h4>
-                            <div class="footer-menu">
-                                <ul>
-                                    <li><a href="/account">My account</a></li>
-                                    <li><a class="checkoutBtn" >Checkout</a></li>
-                                    <li><a href="/contact">Contact us</a></li>
-                                    <li><a href="/cart">Shopping Cart</a></li>
-                                    <li><a href="/wishlist">Wishlist</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-md-6 col-sm-6 col-12">
-                        <div class="footer-widget footer-menu-widget clearfix">
-                            <h4 class="footer-title">Quick Links</h4>
-                            <div class="footer-menu">
-                                <ul>
-                                    <li><a href="locations.html">Store Location</a></li>
-                                    <li><a href="order-tracking.html">Orders Tracking</a></li>
-                                    <li><a href="product-details.html">Size Guide</a></li>
-                                    <li><a href="/account">My account</a></li>
-                                    <li><a href="faq.html">FAQs</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-md-6 col-sm-6 col-12">
-                        <div class="footer-widget footer-menu-widget clearfix">
-                            <h4 class="footer-title">Information</h4>
-                            <div class="footer-menu">
-                                <ul>
-                                    <li><a href="contact.html">Privacy Page</a></li>
-                                    <li><a href="about.html">About us</a></li>
-                                    <li><a href="contact.html">Careers</a></li>
-                                    <li><a href="faq.html">Delivery Inforamtion</a></li>
-                                    <li><a href="contact.html">Term & Conditions</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-md-6 col-sm-6 col-12">
-                        <div class="footer-widget footer-menu-widget clearfix">
-                            <h4 class="footer-title">Customer Service</h4>
-                            <div class="footer-menu">
-                                <ul>
-                                    <li><a href="product-details.html">Shipping Policy</a></li>
-                                    <li><a href="contact.html">Help & Contact Us</a></li>
-                                    <li><a href="/account">Returns & Refunds</a></li>
-                                    <li><a href="shop.html">Online Stores</a></li>
-                                    <li><a href="contact.html">Terms and Conditions</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-sm-6 col-12">
-                        <div class="footer-widget footer-about-widget">
-                            <h4 class="footer-title">About Our Shop</h4>
-                            <div class="footer-logo d-none">
-                                <div class="site-logo">
-                                    <img src="/img/logo.png" alt="Logo">
-                                </div>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo incididunt ut labore et dolore</p>
-                            <div class="footer-address">
-                                <ul>
-                                    <li>
-                                        <div class="footer-address-icon">
-                                            <i class="icon-location-pin"></i>
-                                        </div>
-                                        <div class="footer-address-info">
-                                            <p>Brooklyn, New York, United States</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="footer-address-icon">
-                                            <i class="icon-phone"></i>
-                                        </div>
-                                        <div class="footer-address-info">
-                                            <p><a href="tel:+0123-456789">+0123-456789</a></p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="footer-address-icon">
-                                            <i class="icon-envelope"></i>
-                                        </div>
-                                        <div class="footer-address-info">
-                                            <p><a href="mailto:example@example.com">example@example.com</a></p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="ltn__social-media mt-20 d-none">
-                                <ul>
-                                    <li><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#" title="Linkedin"><i class="fab fa-linkedin"></i></a></li>
-                                    <li><a href="#" title="Youtube"><i class="fab fa-youtube"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="footer-payment-img">
-                                <img src="/img/icons/payment-6.png" alt="Payment Image">
-                            </div>
-                        </div>
-                    </div>
+      <!-- FOOTER AREA START -->
+      <footer class="ltn__footer-area">
+        <div class="footer-top-area section-bg-5">
+          <div class="container">
+            <div class="row">
+              <div class="col-xl-2 col-md-6 col-sm-6 col-12">
+                <div class="footer-widget footer-menu-widget clearfix">
+                  <h4 class="footer-title">My Accoout</h4>
+                  <div class="footer-menu">
+                    <ul>
+                      <li><a href="/account">My account</a></li>
+                      <li><a class="checkoutBtn">Checkout</a></li>
+                      <li><a href="/contact">Contact us</a></li>
+                      <li><a href="/cart">Shopping Cart</a></li>
+                      <li><a href="/wishlist">Wishlist</a></li>
+                    </ul>
+                  </div>
                 </div>
+              </div>
+              <div class="col-xl-2 col-md-6 col-sm-6 col-12">
+                <div class="footer-widget footer-menu-widget clearfix">
+                  <h4 class="footer-title">Quick Links</h4>
+                  <div class="footer-menu">
+                    <ul>
+                      <li><a href="locations.html">Store Location</a></li>
+                      <li><a href="order-tracking.html">Orders Tracking</a></li>
+                      <li><a href="product-details.html">Size Guide</a></li>
+                      <li><a href="/account">My account</a></li>
+                      <li><a href="faq.html">FAQs</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-2 col-md-6 col-sm-6 col-12">
+                <div class="footer-widget footer-menu-widget clearfix">
+                  <h4 class="footer-title">Information</h4>
+                  <div class="footer-menu">
+                    <ul>
+                      <li><a href="contact.html">Privacy Page</a></li>
+                      <li><a href="about.html">About us</a></li>
+                      <li><a href="contact.html">Careers</a></li>
+                      <li><a href="faq.html">Delivery Inforamtion</a></li>
+                      <li><a href="contact.html">Term & Conditions</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-2 col-md-6 col-sm-6 col-12">
+                <div class="footer-widget footer-menu-widget clearfix">
+                  <h4 class="footer-title">Customer Service</h4>
+                  <div class="footer-menu">
+                    <ul>
+                      <li>
+                        <a href="product-details.html">Shipping Policy</a>
+                      </li>
+                      <li><a href="contact.html">Help & Contact Us</a></li>
+                      <li><a href="/account">Returns & Refunds</a></li>
+                      <li><a href="shop.html">Online Stores</a></li>
+                      <li><a href="contact.html">Terms and Conditions</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-4 col-md-6 col-sm-6 col-12">
+                <div class="footer-widget footer-about-widget">
+                  <h4 class="footer-title">About Our Shop</h4>
+                  <div class="footer-logo d-none">
+                    <div class="site-logo">
+                      <img src="/img/logo.png" alt="Logo" />
+                    </div>
+                  </div>
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmo incididunt ut labore et dolore
+                  </p>
+                  <div class="footer-address">
+                    <ul>
+                      <li>
+                        <div class="footer-address-icon">
+                          <i class="icon-location-pin"></i>
+                        </div>
+                        <div class="footer-address-info">
+                          <p>Brooklyn, New York, United States</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="footer-address-icon">
+                          <i class="icon-phone"></i>
+                        </div>
+                        <div class="footer-address-info">
+                          <p><a href="tel:+0123-456789">+0123-456789</a></p>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="footer-address-icon">
+                          <i class="icon-envelope"></i>
+                        </div>
+                        <div class="footer-address-info">
+                          <p>
+                            <a href="mailto:example@example.com"
+                              >example@example.com</a
+                            >
+                          </p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="ltn__social-media mt-20 d-none">
+                    <ul>
+                      <li>
+                        <a href="#" title="Facebook"
+                          ><i class="fab fa-facebook-f"></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a href="#" title="Twitter"
+                          ><i class="fab fa-twitter"></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a href="#" title="Linkedin"
+                          ><i class="fab fa-linkedin"></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a href="#" title="Youtube"
+                          ><i class="fab fa-youtube"></i
+                        ></a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="footer-payment-img">
+                    <img src="/img/icons/payment-6.png" alt="Payment Image" />
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
         <div class="ltn__copyright-area ltn__copyright-2 section-bg-5">
-            <div class="container ltn__border-top-2">
-                <div class="row">
-                    <div class="col-md-6 col-12">
-                        <div class="footer-copyright-left">
-                            <div class="ltn__copyright-design clearfix">
-                                <p>&copy; <span class="current-year"></span> - Just For You</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12 align-self-center">
-                        <div class="footer-copyright-right text-end">
-                            <div class="ltn__copyright-menu d-none">
-                                <ul>
-                                    <li><a href="#">Terms & Conditions</a></li>
-                                    <li><a href="#">Claim</a></li>
-                                    <li><a href="#">Privacy & Policy</a></li>
-                                </ul>
-                            </div>
-                            <div class="ltn__social-media ">
-                                <ul>
-                                    <li><a href="#" title="Facebook"><i class="icon-social-facebook"></i></a></li>
-                                    <li><a href="#" title="Twitter"><i class="icon-social-twitter"></i></a></li>
-                                    <li><a href="#" title="Pinterest"><i class="icon-social-pinterest"></i></a></li>
-                                    <li><a href="#" title="Instagram"><i class="icon-social-instagram"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+          <div class="container ltn__border-top-2">
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <div class="footer-copyright-left">
+                  <div class="ltn__copyright-design clearfix">
+                    <p>
+                      &copy; <span class="current-year"></span> - Just For You
+                    </p>
+                  </div>
                 </div>
+              </div>
+              <div class="col-md-6 col-12 align-self-center">
+                <div class="footer-copyright-right text-end">
+                  <div class="ltn__copyright-menu d-none">
+                    <ul>
+                      <li><a href="#">Terms & Conditions</a></li>
+                      <li><a href="#">Claim</a></li>
+                      <li><a href="#">Privacy & Policy</a></li>
+                    </ul>
+                  </div>
+                  <div class="ltn__social-media">
+                    <ul>
+                      <li>
+                        <a href="#" title="Facebook"
+                          ><i class="icon-social-facebook"></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a href="#" title="Twitter"
+                          ><i class="icon-social-twitter"></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a href="#" title="Pinterest"
+                          ><i class="icon-social-pinterest"></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a href="#" title="Instagram"
+                          ><i class="icon-social-instagram"></i
+                        ></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </footer>
-    <!-- FOOTER AREA END -->
-</div>
-<!-- Body main wrapper end -->
+      </footer>
+      <!-- FOOTER AREA END -->
+    </div>
+    <!-- Body main wrapper end -->
 
     <!-- All JS Plugins -->
     <script src="/js/plugins.js"></script>
     <!-- Main JS -->
     <script src="/js/main.js"></script>
-      <!-- Custom JS -->
-<script src="/js/auth.js"></script>
-<script src="/js/api.js"></script>
-<script src="/js/config.js"></script>
-<script src="/js/common.js"></script>
-<script>
-// Example: Replace with real fetch from your backend
-window.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const ordersResponse = await fetchMyProducts();
-        const orders = ordersResponse.data || [];
-        const tbody = document.getElementById('orders-table-body');
-        tbody.innerHTML = orders.map(order => `
+    <!-- Custom JS -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+      // Example: Replace with real fetch from your backend
+      window.addEventListener("DOMContentLoaded", async () => {
+        try {
+          const ordersResponse = await fetchMyProducts();
+          const orders = ordersResponse.data || [];
+          const tbody = document.getElementById("orders-table-body");
+          const pendingTbody = document.getElementById(
+            "pending-orders-table-body"
+          );
+          const failedTbody = document.getElementById(
+            "failed-orders-table-body"
+          );
+          tbody.innerHTML = orders
+            .filter((order) => order.status === "PAID")
+            .map(
+              (order) => `
             <tr>
-                <td><img src="${order.thumbnail}" alt="${order.name}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;"></td>
+                <td><img src="${order.thumbnail}" alt="${
+                order.name
+              }" style="width:60px;height:60px;object-fit:cover;border-radius:8px;"></td>
                 <td>${order.name}</td>
                 <td>₹${order.price}</td>
-                <td>${order?.date?.slice?.(0,10)}</td>
-                <td><a href="${order.driveLink}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">View</a></td>
+                <td>${order?.date?.slice?.(0, 10)}</td>
+                <td><a href="${
+                  order.driveLink
+                }" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">View</a></td>
             </tr>
-        `).join('');
-    } catch (e) {
-        console.error('Failed to fetch orders:', e);
-    }
-});
-// const orders = [
-//   {
-//     image: '/img/product/1.png',
-//     title: 'Brake Conversion Kit',
-//     description: 'High quality brake conversion kit for your car.',
-//     price: 298,
-//     date: '2025-06-01',
-//     status: 'Pending',
-//     id: 1
-//   },
-//   {
-//     image: '/img/product/2.png',
-//     title: 'OE Replica Wheels',
-//     description: 'Durable OE replica wheels for all terrains.',
-//     price: 170,
-//     date: '2025-05-22',
-//     status: 'Approved',
-//     id: 2
-//   },
-//   {
-//     image: '/img/product/3.png',
-//     title: 'Wheel Bearing Retainer',
-//     description: 'Precision wheel bearing retainer for smooth rides.',
-//     price: 150,
-//     date: '2025-05-12',
-//     status: 'On Hold',
-//     id: 3
-//   }
-// ];
-// const tbody = document.getElementById('orders-table-body');
-// tbody.innerHTML = orders.map(order => `
-//   <tr>
-//     <td><img src="${order.image}" alt="${order.title}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;"></td>
-//     <td>${order.title}</td>
-//     <td>₹${order.price}</td>
-//     <td>${order.date}</td>
-//     <td><a href="#" class="btn btn-sm btn-primary">View</a></td>
-//   </tr>
-// `).join('');
-</script>
-  
-</body>
+        `
+            )
+            .join("");
+          pendingTbody.innerHTML = orders
+            .filter((order) => order.status === "PENDING")
+            .map(
+              (order) => `
+            <tr>
+                <td><img src="${order.thumbnail}" alt="${
+                order.name
+              }" style="width:60px;height:60px;object-fit:cover;border-radius:8px;"></td>
+                <td>${order.name}</td>
+                <td>₹${order.price}</td>
+                <td>${order?.date?.slice?.(0, 10)}</td>
+                <td><span class="badge bg-warning text-dark">Pending</span></td>
+            </tr>
+        `
+            )
+            .join("");
+          failedTbody.innerHTML = orders
+            .filter((order) => order.status === "FAILED")
+            .map(
+              (order) => `
+            <tr>
+                <td><img src="${order.thumbnail}" alt="${
+                order.name
+              }" style="width:60px;height:60px;object-fit:cover;border-radius:8px;"></td>
+                <td>${order.name}</td>
+                <td>₹${order.price}</td>
+                <td>${order?.date?.slice?.(0, 10)}</td>
+                <td><span class="badge bg-danger">Failed</span></td>
+            </tr>
+        `
+            )
+            .join("");
+        } catch (e) {
+          console.error("Failed to fetch orders:", e);
+        }
+      });
+      // const orders = [
+      //   {
+      //     image: '/img/product/1.png',
+      //     title: 'Brake Conversion Kit',
+      //     description: 'High quality brake conversion kit for your car.',
+      //     price: 298,
+      //     date: '2025-06-01',
+      //     status: 'Pending',
+      //     id: 1
+      //   },
+      //   {
+      //     image: '/img/product/2.png',
+      //     title: 'OE Replica Wheels',
+      //     description: 'Durable OE replica wheels for all terrains.',
+      //     price: 170,
+      //     date: '2025-05-22',
+      //     status: 'Approved',
+      //     id: 2
+      //   },
+      //   {
+      //     image: '/img/product/3.png',
+      //     title: 'Wheel Bearing Retainer',
+      //     description: 'Precision wheel bearing retainer for smooth rides.',
+      //     price: 150,
+      //     date: '2025-05-12',
+      //     status: 'On Hold',
+      //     id: 3
+      //   }
+      // ];
+      // const tbody = document.getElementById('orders-table-body');
+      // tbody.innerHTML = orders.map(order => `
+      //   <tr>
+      //     <td><img src="${order.image}" alt="${order.title}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;"></td>
+      //     <td>${order.title}</td>
+      //     <td>₹${order.price}</td>
+      //     <td>${order.date}</td>
+      //     <td><a href="#" class="btn btn-sm btn-primary">View</a></td>
+      //   </tr>
+      // `).join('');
+    </script>
+  </body>
 </html>
-

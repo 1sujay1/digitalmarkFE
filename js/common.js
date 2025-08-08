@@ -1,7 +1,8 @@
 const renderHeaderMenu = () => {
   const menuContainer = document.getElementById("headerMenu");
   // Disable cart if empty
-  const cartDisabled = globalCartItems.length === 0 ? 'pointer-events: none; opacity: 0.5;' : '';
+  const cartDisabled =
+    globalCartItems.length === 0 ? "pointer-events: none; opacity: 0.5;" : "";
 
   menuContainer.innerHTML = `
     <div class="container">
@@ -131,8 +132,8 @@ const renderHeaderMenu = () => {
     `;
 };
 function updateNavbarCartCount() {
-  const cartCountElement = document.querySelector('.mini-cart-icon sup'); // Update this selector based on your HTML structure
-  const cartValueElement = document.querySelector('.mini-cart-icon .cartValue'); // Selector for the cart value element
+  const cartCountElement = document.querySelector(".mini-cart-icon sup"); // Update this selector based on your HTML structure
+  const cartValueElement = document.querySelector(".mini-cart-icon .cartValue"); // Selector for the cart value element
   if (cartCountElement) {
     cartCountElement.textContent = globalCartItems.length; // Update the count
   }
@@ -146,37 +147,39 @@ document.addEventListener("DOMContentLoaded", async () => {
   updateNavbarOnAuth();
 
   // Reinitialize modal functionality after rendering the header menu
-  const cartMenuToggle = document.querySelectorAll('.ltn__utilize-toggle');
-  cartMenuToggle.forEach(toggle => {
-    toggle.addEventListener('click', async function (e) {
+  const cartMenuToggle = document.querySelectorAll(".ltn__utilize-toggle");
+  cartMenuToggle.forEach((toggle) => {
+    toggle.addEventListener("click", async function (e) {
       e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
+      const target = document.querySelector(this.getAttribute("href"));
       if (target) {
         await updateCartModal(); // Update cart modal dynamically
-        target.classList.add('ltn__utilize-open');
+        target.classList.add("ltn__utilize-open");
       }
     });
   });
 
-  const cartMenuClose = document.querySelectorAll('.ltn__utilize-close');
-  cartMenuClose.forEach(close => {
-    close.addEventListener('click', function () {
-      this.closest('.ltn__utilize').classList.remove('ltn__utilize-open');
+  const cartMenuClose = document.querySelectorAll(".ltn__utilize-close");
+  cartMenuClose.forEach((close) => {
+    close.addEventListener("click", function () {
+      this.closest(".ltn__utilize").classList.remove("ltn__utilize-open");
     });
   });
 });
 var totalCartPrice = 0;
 // Function to update the cart modal dynamically
 async function updateCartModal() {
-  document.getElementById("header-cart-block").style.pointerEvents = 'auto'; // Enable cart icon pointer events
-  document.getElementById("header-cart-block").style.opacity = '1'; // Reset opacity
-  const cartItemsContainer = document.querySelector('.mini-cart-product-area');
-  const cartFooter = document.querySelector('.mini-cart-footer .mini-cart-sub-total span');
+  document.getElementById("header-cart-block").style.pointerEvents = "auto"; // Enable cart icon pointer events
+  document.getElementById("header-cart-block").style.opacity = "1"; // Reset opacity
+  const cartItemsContainer = document.querySelector(".mini-cart-product-area");
+  const cartFooter = document.querySelector(
+    ".mini-cart-footer .mini-cart-sub-total span"
+  );
   if (!cartItemsContainer || !cartFooter) return;
 
   let cartItems = [];
 
-  if (localStorage.getItem('token')) {
+  if (localStorage.getItem("token")) {
     try {
       const response = await fetchCartItems();
       if (response.status === 200) {
@@ -186,34 +189,43 @@ async function updateCartModal() {
         console.error(response.message);
       }
     } catch (error) {
-      console.error('Error fetching cart items:', error);
+      console.error("Error fetching cart items:", error);
     }
   } else {
     cartItems = getLocalCartItems();
-    totalCartPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    totalCartPrice = cartItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
   }
 
-  document.querySelector('.cartValue').textContent = `₹${totalCartPrice}`;
+  document.querySelector(".cartValue").textContent = `₹${totalCartPrice}`;
   // console.log('Cart Items:', cartItems);
   if (cartItems.length > 0) {
-    let cartItemsContent ="";
+    let cartItemsContent = "";
 
-cartItems.forEach(item => {
-  cartItemsContent += ` <div class="mini-cart-item clearfix">
+    cartItems.forEach((item) => {
+      cartItemsContent += ` <div class="mini-cart-item clearfix">
         <div class="mini-cart-img">
-          <a href="#"><img src="${item.thumbnail || 'img/product/1.png'}" alt="Image"></a>
-          <span class="mini-cart-item-delete" onclick='confirmRemoveCartItem(${JSON.stringify(item)})'><i class="icon-trash"></i></span>
+          <a href="#"><img src="${
+            item.thumbnail || "img/product/1.png"
+          }" alt="Image"></a>
+         <span class="mini-cart-item-delete" onclick="confirmRemoveCartItem('${
+           item._id
+         }', '${item.name}')">
+  <i class="icon-trash"></i>
+</span>
         </div>
         <div class="mini-cart-info">
           <h6><a href="#">${item.name}</a></h6>
           <span class="mini-cart-quantity">1 x ₹${item.price}</span>
         </div>
-      </div>`
+      </div>`;
     });
-    cartItemsContainer.innerHTML =  cartItemsContent;
-
+    cartItemsContainer.innerHTML = cartItemsContent;
   } else {
-    cartItemsContainer.innerHTML = '<p class="text-center">Your cart is empty.</p>';
+    cartItemsContainer.innerHTML =
+      '<p class="text-center">Your cart is empty.</p>';
   }
   cartFooter.textContent = `₹${totalCartPrice}`;
   updateNavbarCartCount();
@@ -222,15 +234,18 @@ cartItems.forEach(item => {
 // Function to remove an item from the cart
 
 // Show confirmation modal before removing cart item
-function confirmRemoveCartItem(item) {
+function confirmRemoveCartItem(productId, name) {
+  console.log("confirmRemoveCartItem called", productId, name);
   // console.log('confirmRemoveCartItem called', item);
-  const productId = item._id; // Use _id if available, otherwise use the item directly
+  const productName = name; // Use _id if available, otherwise use the item directly
   // Create modal if not already present
-  document.querySelector('.ltn__utilize.ltn__utilize-cart-menu.cartModal').classList.remove('ltn__utilize-open');
-  let modal = document.getElementById('removeCartItemModal');
+  document
+    .querySelector(".ltn__utilize.ltn__utilize-cart-menu.cartModal")
+    .classList.remove("ltn__utilize-open");
+  let modal = document.getElementById("removeCartItemModal");
   if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'removeCartItemModal';
+    modal = document.createElement("div");
+    modal.id = "removeCartItemModal";
     modal.innerHTML = `
       <div class="modal fade" tabindex="-1" id="removeCartItemModalDialog">
         <div class="modal-dialog modal-dialog-centered">
@@ -242,7 +257,7 @@ function confirmRemoveCartItem(item) {
             <div class="modal-body">
               <p>Are you sure you want to remove this item from your cart?</p>
               
-                <strong>Title :</strong> <span class="fw-bold text-danger">${item.name}</span>.
+                <strong>Title :</strong> <span class="fw-bold text-danger">${productName}</span>.
               
             </div>
             <div class="modal-footer">
@@ -257,12 +272,14 @@ function confirmRemoveCartItem(item) {
   }
 
   // Show modal using Bootstrap
-  const bsModal = new bootstrap.Modal(document.getElementById('removeCartItemModalDialog'));
+  const bsModal = new bootstrap.Modal(
+    document.getElementById("removeCartItemModalDialog")
+  );
   bsModal.show();
 
   // Remove previous event listeners
-  const confirmBtn = document.getElementById('confirmRemoveCartItemBtn');
-  const cancelBtn = document.getElementById('cancelRemoveCartItemBtn');
+  const confirmBtn = document.getElementById("confirmRemoveCartItemBtn");
+  const cancelBtn = document.getElementById("cancelRemoveCartItemBtn");
   confirmBtn.onclick = function () {
     bsModal.hide();
     removeCartItem(productId);
@@ -277,19 +294,19 @@ function confirmRemoveCartItem(item) {
 // In updateCartModal, change:
 // <span class="mini-cart-item-delete" onclick="removeCartItem('${item._id}')">
 // to:
-    // <span class="mini-cart-item-delete" data-product-id="${item._id}">
+// <span class="mini-cart-item-delete" data-product-id="${item._id}">
 
 // And after rendering cart items, add:
-setTimeout(() => {
-  document.querySelectorAll('.mini-cart-item-delete').forEach(btn => {
-    btn.onclick = function (e) {
-      const productId = this.getAttribute('data-product-id');
-      confirmRemoveCartItem(productId);
-    };
-  });
-}, 0);
+// setTimeout(() => {
+//   document.querySelectorAll(".mini-cart-item-delete").forEach((btn) => {
+//     btn.onclick = function (e) {
+//       const productId = this.getAttribute("data-product-id");
+//       confirmRemoveCartItem(productId);
+//     };
+//   });
+// }, 0);
 async function removeCartItem(productId) {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (token) {
     try {
       const response = await removeCartItemFromServer(token, productId);
@@ -302,11 +319,11 @@ async function removeCartItem(productId) {
         console.error(response.message);
       }
     } catch (error) {
-      console.error('Error removing cart item:', error);
+      console.error("Error removing cart item:", error);
     }
   } else {
     let cart = getLocalCartItems();
-    cart = cart.filter(item => item._id !== productId);
+    cart = cart.filter((item) => item._id !== productId);
     setLocalCartITems(cart);
     globalCartItems = cart;
     updateNavbarCartCount();
@@ -411,7 +428,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
     `;
 
-    const cartModalHTML = `
+  const cartModalHTML = `
       <div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu cartModal" >
       <div class="ltn__utilize-menu-inner ltn__scrollbar">
         <div class="ltn__utilize-menu-head d-flex align-items-center justify-content-between">
@@ -434,7 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       </div>
     </div>
-    `
+    `;
 
   document.body.innerHTML += modalHTML;
   document.body.innerHTML += cartModalHTML;
@@ -450,29 +467,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const email = document.getElementById("loginEmail").value.trim();
       const password = document.getElementById("loginPassword").value;
-const loginBtn = document.getElementById("loginBtn")
+      const loginBtn = document.getElementById("loginBtn");
       try {
-        loginBtn.innerHTML='Please wait...'
+        loginBtn.innerHTML = "Please wait...";
         const response = await loginUser({ email, password });
         if (response.status === 200) {
-          loginBtn.innerHTML = 'Login Success';
+          loginBtn.innerHTML = "Login Success";
           const userData = {
             name: response.data.user.name,
             email: response.data.user.email,
             token: response.data.accessToken,
           };
-          localStorage.setItem('user', JSON.stringify(userData));
-          localStorage.setItem('token', userData.token);
+          localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem("token", userData.token);
           updateNavbarOnAuth();
           window.location.reload();
         } else {
-          alert(response.message || 'Invalid email or password.');
-          loginBtn.innerHTML = 'Login';
+          alert(response.message || "Invalid email or password.");
+          loginBtn.innerHTML = "Login";
         }
       } catch (error) {
-        console.error('Login error:', error);
-        alert('Something went wrong. Please try again.');
-        loginBtn.innerHTML = 'Login';
+        console.error("Login error:", error);
+        alert("Something went wrong. Please try again.");
+        loginBtn.innerHTML = "Login";
       }
     });
   }
@@ -493,9 +510,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobile = document.getElementById("mobileRegister").value.trim();
     const email = document.getElementById("emailRegister").value.trim();
     const password = document.getElementById("passwordRegister").value.trim();
-    const confirmPassword = document.getElementById("confirmPasswordRegister").value.trim();
+    const confirmPassword = document
+      .getElementById("confirmPasswordRegister")
+      .value.trim();
     const submitBtn = document.getElementById("submitBtn");
-    
+
     // const otpBtn = document.getElementById("otpBtn");
     const signupBtn = document.getElementById("signupBtn");
     // If OTP section already exists, handle verification
@@ -520,7 +539,8 @@ document.addEventListener("DOMContentLoaded", () => {
           signupBtn.innerHTML = "Success";
           registerMessage.classList.remove("text-danger");
           registerMessage.classList.add("text-success");
-          registerMessage.textContent = "Registration successful. Please login.";
+          registerMessage.textContent =
+            "Registration successful. Please login.";
           alert("Registration successful!");
           const userData = {
             name: response.data.user.name,
@@ -566,10 +586,23 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     try {
       submitBtn.innerHTML = "Please wait...";
-      const response = await sendOtp({ type: "email", name, mobile, email, password,isRegister:true });
+      const response = await sendOtp({
+        type: "email",
+        name,
+        mobile,
+        email,
+        password,
+        isRegister: true,
+      });
       if (response.status === 200) {
         submitBtn.innerHTML = "OTP sent Successfully";
-        ["nameRegister", "mobileRegister", "emailRegister", "passwordRegister", "confirmPasswordRegister"].forEach((id) => {
+        [
+          "nameRegister",
+          "mobileRegister",
+          "emailRegister",
+          "passwordRegister",
+          "confirmPasswordRegister",
+        ].forEach((id) => {
           const input = document.getElementById(id);
           if (input) input.setAttribute("disabled", "true");
         });
@@ -609,7 +642,13 @@ document.addEventListener("click", async (e) => {
     const resendOtpLink = document.getElementById("resendOtpLink");
     try {
       resendOtpLink.innerHTML = "Please wait...";
-      const response = await sendOtp({ type: "email", name, mobile, email, password });
+      const response = await sendOtp({
+        type: "email",
+        name,
+        mobile,
+        email,
+        password,
+      });
       if (response.status === 200) {
         alert("OTP resent successfully!");
         resendOtpLink.innerHTML = "Resent OTP Success";
@@ -626,7 +665,8 @@ document.addEventListener("click", async (e) => {
     } catch (err) {
       alert("Error resending OTP:", err);
       resendOtpLink.innerHTML = "Resend OTP";
-      document.getElementById("otpMessage").textContent = "Error while resending OTP.";
+      document.getElementById("otpMessage").textContent =
+        "Error while resending OTP.";
     }
   }
 });
@@ -705,21 +745,19 @@ async function getCartItems() {
         const data = response.data;
         totalCartPrice = data?.totalCartPrice || 0;
         const responseData = {
-          products:data?.items || [],
+          products: data?.items || [],
           totalCartPrice: data?.totalCartPrice || 0,
-        }
-        return responseData
+        };
+        return responseData;
       } else {
         alert(response.message || "Failed to fetch cart items.");
         console.error(response.message);
-        return {          products: [],
-          totalCartPrice: 0,};
+        return { products: [], totalCartPrice: 0 };
       }
     } catch (error) {
       alert("Error fetching cart items:", error);
       console.error("Error fetching cart items:", error);
-      return {          products: [],
-        totalCartPrice: 0};
+      return { products: [], totalCartPrice: 0 };
     }
   } else {
     const cartItems = localStorage.getItem("cart");
@@ -741,53 +779,59 @@ async function getCartItems() {
 async function init() {
   const cartItemsResponse = await getCartItems();
   globalCartItems = cartItemsResponse.products || [];
-   // Assign to global variable
+  // Assign to global variable
 }
 
 init();
 
 async function openCartModal(event) {
   // console.log('openCartModal called',event);
-    if (event) event.preventDefault();
-    const cartMenu = document.getElementById('ltn__utilize-cart-menu');
-    if (cartMenu) {
-      // console.log('Cart menu found, updating modal');
-        await updateCartModal(); // Ensure cart is up to date
-        cartMenu.classList.add('ltn__utilize-open');
-    }
+  if (event) event.preventDefault();
+  const cartMenu = document.getElementById("ltn__utilize-cart-menu");
+  if (cartMenu) {
+    // console.log('Cart menu found, updating modal');
+    await updateCartModal(); // Ensure cart is up to date
+    cartMenu.classList.add("ltn__utilize-open");
   }
-  
-  document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".checkoutBtn").forEach(btn => {
-      btn.addEventListener("click", function (e) {
-        const token = localStorage.getItem("token");
+}
 
-        if (!token) {
-          e.preventDefault(); // Block navigation
-         // Show the modal using Bootstrap 5 API
-          const authModal = new bootstrap.Modal(document.getElementById('auth_modal'));
-          document.querySelector('.ltn__utilize.ltn__utilize-cart-menu.cartModal').classList.remove('ltn__utilize-open');
-          authModal.show();
-        }else{
-          window.location.replace('/checkout');
-        }
-        // else: allow href to navigate normally
-      });
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".checkoutBtn").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        e.preventDefault(); // Block navigation
+        // Show the modal using Bootstrap 5 API
+        const authModal = new bootstrap.Modal(
+          document.getElementById("auth_modal")
+        );
+        document
+          .querySelector(".ltn__utilize.ltn__utilize-cart-menu.cartModal")
+          .classList.remove("ltn__utilize-open");
+        authModal.show();
+      } else {
+        window.location.replace("/checkout");
+      }
+      // else: allow href to navigate normally
     });
   });
+});
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const clearCartBtn = document.getElementById("clearCartBtn");
-    if (clearCartBtn) {
-      clearCartBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-document.querySelector('.ltn__utilize.ltn__utilize-cart-menu.cartModal').classList.remove('ltn__utilize-open');
-        // Create modal if not already present
-        let modal = document.getElementById('clearCartModal');
-        if (!modal) {
-          modal = document.createElement('div');
-          modal.id = 'clearCartModal';
-          modal.innerHTML = `
+document.addEventListener("DOMContentLoaded", function () {
+  const clearCartBtn = document.getElementById("clearCartBtn");
+  if (clearCartBtn) {
+    clearCartBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      document
+        .querySelector(".ltn__utilize.ltn__utilize-cart-menu.cartModal")
+        .classList.remove("ltn__utilize-open");
+      // Create modal if not already present
+      let modal = document.getElementById("clearCartModal");
+      if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "clearCartModal";
+        modal.innerHTML = `
             <div class="modal fade" tabindex="-1" id="clearCartModalDialog">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -806,62 +850,66 @@ document.querySelector('.ltn__utilize.ltn__utilize-cart-menu.cartModal').classLi
               </div>
             </div>
           `;
-          document.body.appendChild(modal);
-        }
+        document.body.appendChild(modal);
+      }
 
-        // Show modal using Bootstrap
-        const bsModal = new bootstrap.Modal(document.getElementById('clearCartModalDialog'));
-        bsModal.show();
+      // Show modal using Bootstrap
+      const bsModal = new bootstrap.Modal(
+        document.getElementById("clearCartModalDialog")
+      );
+      bsModal.show();
 
-        // Remove previous event listeners if any
-        const confirmBtn = document.getElementById('confirmClearCartBtn');
-        const cancelBtn = document.getElementById('cancelClearCartBtn');
-        confirmBtn.onclick = function () {
-          bsModal.hide();
-          clearCartModal();
-          
-        };
-        cancelBtn.onclick = function () {
-          bsModal.hide();
-        };
-      });
-    }
-  });
-
-  // Clear cart function
-  function clearCartModal() {
-    clearCart()
-    const token = localStorage.getItem('token');
-    if (token) {
-      // If you have an API endpoint to clear cart on server, call it here
-      // Example: await clearCartOnServer(token);
-      // For now, just clear globalCartItems
-      globalCartItems = [];
-      // Optionally, call updateCartModal and updateNavbarCartCount
-      updateCartModal();
-      updateNavbarCartCount();
-    } else {
-      localStorage.removeItem('cart');
-      globalCartItems = [];
-      updateCartModal();
-      updateNavbarCartCount();
-    }
-    window.location.replace('/');
+      // Remove previous event listeners if any
+      const confirmBtn = document.getElementById("confirmClearCartBtn");
+      const cancelBtn = document.getElementById("cancelClearCartBtn");
+      confirmBtn.onclick = function () {
+        bsModal.hide();
+        clearCartModal();
+      };
+      cancelBtn.onclick = function () {
+        bsModal.hide();
+      };
+    });
   }
+});
 
+// Clear cart function
+function clearCartModal() {
+  clearCart();
+  const token = localStorage.getItem("token");
+  if (token) {
+    // If you have an API endpoint to clear cart on server, call it here
+    // Example: await clearCartOnServer(token);
+    // For now, just clear globalCartItems
+    globalCartItems = [];
+    // Optionally, call updateCartModal and updateNavbarCartCount
+    updateCartModal();
+    updateNavbarCartCount();
+  } else {
+    localStorage.removeItem("cart");
+    globalCartItems = [];
+    updateCartModal();
+    updateNavbarCartCount();
+  }
+  window.location.replace("/");
+}
 
-  document.addEventListener('DOMContentLoaded', function () {
-    const protectedLinks = document.querySelectorAll('.protected-link');
-    protectedLinks.forEach(link => {
-      link.addEventListener('click', function (e) {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          e.preventDefault(); // stop the link navigation
-        const authModal = new bootstrap.Modal(document.getElementById('auth_modal'));
-          document.querySelector('.ltn__utilize.ltn__utilize-cart-menu.cartModal').classList.remove('ltn__utilize-open');
-          authModal.show();
-        }
-        // else: token exists → allow default navigation
-      });
+document.addEventListener("DOMContentLoaded", function () {
+  const protectedLinks = document.querySelectorAll(".protected-link");
+  protectedLinks.forEach((link) => {
+    link.addEventListener("click", function (e) {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        e.preventDefault(); // stop the link navigation
+        const authModal = new bootstrap.Modal(
+          document.getElementById("auth_modal")
+        );
+        document
+          .querySelector(".ltn__utilize.ltn__utilize-cart-menu.cartModal")
+          .classList.remove("ltn__utilize-open");
+        authModal.show();
+      }
+      // else: token exists → allow default navigation
     });
   });
+});
