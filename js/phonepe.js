@@ -51,10 +51,11 @@ async function checkPhonePePaymentStatus(
     if (data?.data?.status) {
       if (statusDiv)
         statusDiv.innerText = "Payment Status: " + data.data.status;
-    } else {
-      if (statusDiv)
-        statusDiv.innerText = data.message || "Could not fetch payment status.";
+    } else if (statusDiv) {
+      statusDiv.innerText = data.message || "Could not fetch payment status.";
     }
+    init();
+    renderHeaderMenu();
   } catch (err) {
     if (statusDiv) statusDiv.innerText = "Error checking payment status.";
     console.error("Error checking PhonePe payment status:", err);
