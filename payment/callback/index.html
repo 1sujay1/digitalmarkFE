@@ -335,8 +335,6 @@
           <p><span class="label">Payment Mode:</span> <span class="value">${pd.paymentMode || instrument.type || "-"}</span></p>
           <p><span class="label">Amount Paid:</span> <span class="value">₹${(paymentInfo.amount || 0) / 100}</span></p>
           <p><span class="label">Payment Date:</span> <span class="value">${formatDate(pd.timestamp)}</span></p>
-          <p><span class="label">Bank ID:</span> <span class="value">${instrument.bankId || "-"}</span></p>
-          <p><span class="label">Service Txn ID:</span> <span class="value">${rail.serviceTransactionId || "-"}</span></p>
         </div>`;
       }
       if (paymentState === "PAID") {

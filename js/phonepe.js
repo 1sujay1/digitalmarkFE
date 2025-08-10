@@ -4,13 +4,15 @@
 // --- Payment Initiation ---
 async function initiatePhonePePayment(e) {
   e.stopPropagation();
+  const statusEl = document.getElementById("status");
+  statusEl.textContent = "Starting payment...";
   const token = getToken();
   const getAllCartItemsResponse = await getCartItems();
   const getAllCartItems = getAllCartItemsResponse.products || [];
   const productIds = getAllCartItems.map((p) => p._id);
   try {
     // Call backend to create PhonePe order
-    const res = await fetch(`${BASE_URL}/api/v1/create-order`, {
+    const res = await fetch(`${BASE_URL}/api/v1/create-payment`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,14 +21,58 @@ async function initiatePhonePePayment(e) {
       body: JSON.stringify({ productIds }),
     });
     const data = await res.json();
-    if (data.status === 200 && data?.data?.checkoutPageUrl) {
-      window.location.href = data.data.checkoutPageUrl;
+    const tokenUrl = data?.data?.phonepeRedirectUrl;
+    if (data.status === 200 && tokenUrl) {
+      statusEl.textContent = "Opening payment widget...";
+      window.PhonePeCheckout.transact({
+        tokenUrl,
+        type: "IFRAME",
+        callback: function (response) {
+          // possible responses: 'USER_CANCEL', 'CONCLUDED', 'SDK_ERROR'
+          console.log("PhonePe checkout callback", response);
+          if (response === "USER_CANCEL") {
+            statusEl.textContent = "Payment cancelled by user.";
+            fetch(`${BASE_URL}/api/v1/cancel-order`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                merchantOrderId: data.data.merchantOrderId,
+              }),
+            })
+              .then((res) => res.json())
+              .then((cancelData) => {
+                if (cancelData.status === 200) {
+                  statusEl.textContent = "Order cancelled successfully.";
+                } else {
+                  statusEl.textContent =
+                    cancelData.message || "Failed to cancel order.";
+                }
+              })
+              .catch((err) => {
+                statusEl.textContent = "Error cancelling order.";
+                console.error("Cancel order error:", err);
+              });
+          } else if (response === "CONCLUDED") {
+            statusEl.textContent = "Payment finished. Verifying...";
+            window.location.href = data.data.phonepeCallbackUrl;
+            // Optionally you can trigger server-side order status check here
+            // fetch('/api/order-status?merchantOrderId=' + data.merchantOrderId)
+          } else {
+            statusEl.textContent =
+              "Payment result: " + JSON.stringify(response);
+          }
+        },
+      });
     } else {
       alert(data.message || "Failed to initiate payment");
     }
   } catch (err) {
     console.error("Error creating PhonePe order:", err);
-    alert("Something went wrong while initiating payment.");
+    statusEl.textContent = "Payment initiation failed: " + (err.message || err);
+    // alert("Something went wrong while initiating payment.");
   }
 }
 
