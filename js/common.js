@@ -142,6 +142,7 @@ function updateNavbarCartCount() {
   }
 }
 document.addEventListener("DOMContentLoaded", async () => {
+  await checkAuth();
   await init(); // Ensure globalCartItems is populated
   renderHeaderMenu();
   updateNavbarOnAuth();
@@ -488,7 +489,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (error) {
         console.error("Login error:", error);
-        alert("Something went wrong. Please try again.");
+        // alert("Something went wrong. Please try again.");
         loginBtn.innerHTML = "Login";
       }
     });
@@ -712,7 +713,7 @@ function updateNavbarOnAuth() {
     ${user.name}
   </a>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <li><a class="dropdown-item" href="/account">Profile</a></li>
+    <li><a class="dropdown-item" href="/account">My Account</a></li>
     <li><a class="dropdown-item" onclick=" localStorage.clear();location.reload()" href="#" id="logoutBtn">Logout</a></li>
   </ul>
 </div>
@@ -750,12 +751,12 @@ async function getCartItems() {
         };
         return responseData;
       } else {
-        alert(response.message || "Failed to fetch cart items.");
+        // alert(response.message || "Failed to fetch cart items.");
         console.error(response.message);
         return { products: [], totalCartPrice: 0 };
       }
     } catch (error) {
-      alert("Error fetching cart items:", error);
+      // alert("Error fetching cart items:", error);
       console.error("Error fetching cart items:", error);
       return { products: [], totalCartPrice: 0 };
     }
@@ -913,3 +914,35 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+function checkAuth() {
+  return new Promise((resolve) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      authCheck(token)
+        .then((response) => {
+          if (response.status === 200) {
+            const userData = {
+              name: response.data.name,
+              email: response.data.email,
+              token: token,
+            };
+            localStorage.setItem("user", JSON.stringify(userData));
+          } else {
+            alert("Your session has expired. Please log in again.");
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+          }
+          resolve();
+        })
+        .catch((error) => {
+          console.error("Error fetching user profile:", error);
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          resolve();
+        });
+    } else {
+      resolve();
+    }
+  });
+}

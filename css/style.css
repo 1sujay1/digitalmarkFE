@@ -13065,7 +13065,9 @@ Custom CSS START
   align-items: center;
   justify-content: center;
 }
-
+.order-check-status:focus{
+box-shadow: none;
+}
 /*Privacy Policy*/
 
  

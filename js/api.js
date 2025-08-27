@@ -1,8 +1,8 @@
-const token = localStorage.getItem('token'); // Retrieve token from localStorage
+const token = localStorage.getItem("token"); // Retrieve token from localStorage
 
 // Pass token to all API calls if available
 const headers = {
-  'Content-Type': 'application/json',
+  "Content-Type": "application/json",
   ...(token && { Authorization: `Bearer ${token}` }),
 };
 
@@ -10,17 +10,20 @@ const headers = {
 async function fetchCartItems() {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/cart`, {
-      method: 'GET',
+      method: "GET",
       headers: headers,
     });
     if (response.ok && response.status === 200) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Something went wrong, try again" };
+      return {
+        status: 400,
+        message: error.message || "Something went wrong, try again",
+      };
     }
   } catch (error) {
-    console.error('Error fetching cart itemss:', error);
+    console.error("Error fetching cart itemss:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
@@ -29,7 +32,7 @@ async function fetchCartItems() {
 async function removeCartItemFromServer(token, productId) {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/cart/remove`, {
-      method: 'POST',
+      method: "POST",
       headers: headers,
       body: JSON.stringify({ productId }),
     });
@@ -37,31 +40,39 @@ async function removeCartItemFromServer(token, productId) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Something went wrong, try again" };
+      return {
+        status: 400,
+        message: error.message || "Something went wrong, try again",
+      };
     }
   } catch (error) {
-    console.error('Error removing cart item:', error);
+    console.error("Error removing cart item:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
 
-
 // Utility function to login user
 async function loginUser(credentials) {
   try {
-    const response = await fetch(`${BASE_URL}/api/v1/auth/signInWithEmailPassword`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
-    });
+    const response = await fetch(
+      `${BASE_URL}/api/v1/auth/signInWithEmailPassword`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      }
+    );
     if (response.ok && response.status === 200) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Something went wrong, try again" };
+      return {
+        status: 400,
+        message: error.message || "Something went wrong, try again",
+      };
     }
   } catch (error) {
-    console.error('Error logging in user:', error);
+    console.error("Error logging in user:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
@@ -70,18 +81,21 @@ async function loginUser(credentials) {
 async function verifyOtp(userData) {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/auth/email/verify-otp`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
     });
     if (response.ok && response.status === 200) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Something went wrong, try again" };
+      return {
+        status: 400,
+        message: error.message || "Something went wrong, try again",
+      };
     }
   } catch (error) {
-    console.error('Error verifying OTP:', error);
+    console.error("Error verifying OTP:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
@@ -90,18 +104,21 @@ async function verifyOtp(userData) {
 async function sendOtp(userData) {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/auth/email/send-otp`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
     });
     if (response.ok && response.status === 200) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Something went wrong, try again" };
+      return {
+        status: 400,
+        message: error.message || "Something went wrong, try again",
+      };
     }
   } catch (error) {
-    console.error('Error sending OTP:', error);
+    console.error("Error sending OTP:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
@@ -110,17 +127,20 @@ async function sendOtp(userData) {
 async function fetchProducts() {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/products`, {
-      method: 'GET',
-      headers:headers,
+      method: "GET",
+      headers: headers,
     });
     if (response.ok && response.status === 200) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Failed to fetch products" };
+      return {
+        status: 400,
+        message: error.message || "Failed to fetch products",
+      };
     }
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error("Error fetching products:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
@@ -129,7 +149,7 @@ async function fetchProducts() {
 async function addProductToCart(productId, quantity, token) {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/cart/add`, {
-      method: 'POST',
+      method: "POST",
       headers: headers,
       body: JSON.stringify({ productId, quantity }),
     });
@@ -137,30 +157,35 @@ async function addProductToCart(productId, quantity, token) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Failed to add product to cart" };
+      return {
+        status: 400,
+        message: error.message || "Failed to add product to cart",
+      };
     }
   } catch (error) {
-    console.error('Error adding product to cart:', error);
+    console.error("Error adding product to cart:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
 // Utility function to create an order
 async function createOrder(productIds) {
   try {
-  
     const response = await fetch(`${BASE_URL}/api/v1/create-order`, {
-      method: 'POST',
-      headers:headers,
+      method: "POST",
+      headers: headers,
       body: JSON.stringify({ productIds }),
     });
     if (response.ok && response.status === 200) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Failed to create order" };
+      return {
+        status: 400,
+        message: error.message || "Failed to create order",
+      };
     }
   } catch (error) {
-    console.error('Error creating order:', error);
+    console.error("Error creating order:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
@@ -168,18 +193,18 @@ async function createOrder(productIds) {
 async function clearCart() {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/cart/clear`, {
-      method: 'POST',
+      method: "POST",
       headers: headers,
     });
     if (response.ok && response.status === 200) {
-      localStorage.removeItem('cart'); // Clear local cart items
+      localStorage.removeItem("cart"); // Clear local cart items
       return response.json();
     } else {
       const error = await response.json();
       return { status: 400, message: error.message || "Failed to clear cart" };
     }
   } catch (error) {
-    console.error('Error clearing cart:', error);
+    console.error("Error clearing cart:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
@@ -187,18 +212,66 @@ async function clearCart() {
 async function fetchMyProducts() {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/my-products`, {
-      method: 'GET',
+      method: "GET",
       headers: headers,
     });
     if (response.ok && response.status === 200) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Failed to fetch your products" };
+      return {
+        status: 400,
+        message: error.message || "Failed to fetch your products",
+      };
     }
   } catch (error) {
-    console.error('Error fetching your products:', error);
+    console.error("Error fetching your products:", error);
     return { status: 400, message: "Something went wrong, try again" };
+  }
+}
+
+async function fetchPaymentOrderStatus(merchantOrderId) {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/api/v1/order-status/${merchantOrderId}`,
+      {
+        method: "GET",
+        headers: headers,
+      }
+    );
+    if (response.ok && response.status === 200) {
+      return response.json();
+    } else {
+      const error = await response.json();
+      return {
+        status: 400,
+        message: error.message || "Failed to fetch order status",
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching order status:", error);
+    return { status: 400, message: "Something went wrong, try again" };
+  }
+}
+
+async function authCheck() {
+  try {
+    const response = await fetch(`${BASE_URL}/api/v1/auth/check`, {
+      method: "GET",
+      headers: headers,
+    });
+    if (response.ok && response.status === 200) {
+      return response.json();
+    } else {
+      const error = await response.json();
+      return {
+        status: 400,
+        message: error.message || "Failed to fetch your products",
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching your products:", error);
+    return { status: 500, message: "Something went wrong, try again" };
   }
 }
 /**
@@ -208,25 +281,31 @@ async function fetchMyProducts() {
  */
 async function uploadProductThumbnail(file) {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append("file", file);
 
   try {
-    const response = await fetch(`${BASE_URL}/api/v1/product/thumbnail/upload`, {
-      method: 'POST',
-      headers: {
-        ...(token && { Authorization: `Bearer ${token}` }),
-        // Do not set Content-Type; browser will set it for FormData
-      },
-      body: formData,
-    });
+    const response = await fetch(
+      `${BASE_URL}/api/v1/product/thumbnail/upload`,
+      {
+        method: "POST",
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+          // Do not set Content-Type; browser will set it for FormData
+        },
+        body: formData,
+      }
+    );
     if (response.ok && response.status === 200) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Failed to upload thumbnail" };
+      return {
+        status: 400,
+        message: error.message || "Failed to upload thumbnail",
+      };
     }
   } catch (error) {
-    console.error('Error uploading product thumbnail:', error);
+    console.error("Error uploading product thumbnail:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
@@ -239,12 +318,12 @@ async function uploadProductThumbnail(file) {
 async function uploadProductImages(files) {
   const formData = new FormData();
   Array.from(files).forEach((file, idx) => {
-    formData.append('files', file);
+    formData.append("files", file);
   });
 
   try {
     const response = await fetch(`${BASE_URL}/api/v1/product/images/uploads`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),
         // Do not set Content-Type; browser will set it for FormData
@@ -255,10 +334,13 @@ async function uploadProductImages(files) {
       return response.json();
     } else {
       const error = await response.json();
-      return { status: 400, message: error.message || "Failed to upload images" };
+      return {
+        status: 400,
+        message: error.message || "Failed to upload images",
+      };
     }
   } catch (error) {
-    console.error('Error uploading product images:', error);
+    console.error("Error uploading product images:", error);
     return { status: 400, message: "Something went wrong, try again" };
   }
 }

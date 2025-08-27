@@ -88,12 +88,13 @@ async function checkPhonePePaymentStatus(
     return;
   }
   try {
-    const res = await fetch(`/api/v1/order-status/${merchantOrderId}`, {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await res.json();
+    // const res = await fetch(`/api/v1/order-status/${merchantOrderId}`, {
+    //   headers: {
+    //     authorization: `Bearer ${token}`,
+    //   },
+    // });
+    // const data = await res.json();
+    const data = await fetchPaymentOrderStatus(merchantOrderId);
     if (data?.data?.status) {
       if (statusDiv)
         statusDiv.innerText = "Payment Status: " + data.data.status;

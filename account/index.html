@@ -589,13 +589,23 @@
                 <td>${order.name}</td>
                 <td>₹${order.price}</td>
                 <td>${order?.date?.slice?.(0, 10)}</td>
-                <td><span class="badge bg-warning text-dark">Pending</span></td>
+
+                <td>
+  <div class="d-flex align-items-start">
+    <span class="badge bg-warning text-dark mb-1">Pending</span>
+    <button 
+      class="btn btn-link p-0 order-check-status" 
+      data-orderid="${order.merchantOrderId}">
+      🔄 Check Status
+    </button>
+  </div>
+</td>
             </tr>
         `
             )
             .join("");
           failedTbody.innerHTML = orders
-            .filter((order) => order.status === "FAILED")
+            .filter((order) => order.status === "FAILED" || order.status === "CANCELLED")
             .map(
               (order) => `
             <tr>
@@ -653,6 +663,26 @@
       //     <td><a href="#" class="btn btn-sm btn-primary">View</a></td>
       //   </tr>
       // `).join('');
+    </script>
+    <script>
+      // Attach event listener for button clicks
+document.addEventListener("click", async function (e) {
+  if (e.target.classList.contains("order-check-status")) {
+    const orderId = e.target.getAttribute("data-orderid");
+    const orderResponse = await fetchPaymentOrderStatus(orderId);
+    console.log("Order Status Response:", orderResponse);
+    if(orderResponse.status === 200 && orderResponse.data && orderResponse.data.status=="PAID") {
+      alert("✅ Thank you! Your payment was successful. You can now access your product.");
+      window.location.reload();
+    } else if(orderResponse.status === 200 && orderResponse.data && orderResponse.data.status=="FAILED") {
+      alert("❌ Your payment has failed. Please try again or contact support.");
+    }else if(orderResponse.status === 200 && orderResponse.data && orderResponse.data.status=="PENDING") {
+      alert("⌛ Your payment is still pending. Please wait a few moments and check again.");
+    } else {
+      alert("Unable to fetch order status at this time. Please try again later.");
+    }
+  }
+});
     </script>
   </body>
 </html>
