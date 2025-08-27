@@ -541,13 +541,6 @@
           const response = await fetchPaymentOrderStatus(orderId);
           console.log("Payment Status Response:", response);
 
-          // if (response.status === "success") {
-          //   alert(`✅ Order ${orderId} payment successful`);
-          // } else if (response.status === "pending") {
-          //   alert(`⌛ Order ${orderId} is still pending`);
-          // } else {
-          //   alert(`❌ Error checking status for ${orderId}`);
-          // }
           if (response.status == 200) {
             alert("Phonepe Payment Status: " + response.data.response.state);
           }

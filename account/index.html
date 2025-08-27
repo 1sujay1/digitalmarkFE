@@ -598,6 +598,10 @@
       data-orderid="${order.merchantOrderId}">
       🔄 Check Status
     </button>
+
+    <div id="loader" style="display:none; margin-top:5px; font-size:14px; color:#555;">
+  ⏳ Please wait, checking status...
+</div>
   </div>
 </td>
             </tr>
@@ -669,20 +673,34 @@
 document.addEventListener("click", async function (e) {
   if (e.target.classList.contains("order-check-status")) {
     const orderId = e.target.getAttribute("data-orderid");
-    const orderResponse = await fetchPaymentOrderStatus(orderId);
-    console.log("Order Status Response:", orderResponse);
-    if(orderResponse.status === 200 && orderResponse.data && orderResponse.data.status=="PAID") {
-      alert("✅ Thank you! Your payment was successful. You can now access your product.");
-      window.location.reload();
-    } else if(orderResponse.status === 200 && orderResponse.data && orderResponse.data.status=="FAILED") {
-      alert("❌ Your payment has failed. Please try again or contact support.");
-    }else if(orderResponse.status === 200 && orderResponse.data && orderResponse.data.status=="PENDING") {
-      alert("⌛ Your payment is still pending. Please wait a few moments and check again.");
-    } else {
-      alert("Unable to fetch order status at this time. Please try again later.");
+
+    // Show loader
+    document.getElementById("loader").style.display = "block";
+
+    try {
+      const orderResponse = await fetchPaymentOrderStatus(orderId);
+      console.log("Order Status Response:", orderResponse);
+
+      if(orderResponse.status === 200 && orderResponse.data?.status === "PAID") {
+        alert("✅ Thank you! Your payment was successful. You can now access your product.");
+        window.location.reload();
+      } else if(orderResponse.status === 200 && orderResponse.data?.status === "FAILED") {
+        alert("❌ Your payment has failed. Please try again or contact support.");
+      } else if(orderResponse.status === 200 && orderResponse.data?.status === "PENDING") {
+        alert("⌛ Your payment is still pending. Please wait a few moments and check again.");
+      } else {
+        alert("Unable to fetch order status at this time. Please try again later.");
+      }
+    } catch (err) {
+      console.error("Error fetching status:", err);
+      alert("⚠ Something went wrong. Please try again later.");
+    } finally {
+      // Hide loader after response
+      document.getElementById("loader").style.display = "none";
     }
   }
 });
+
     </script>
   </body>
 </html>
