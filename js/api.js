@@ -189,6 +189,26 @@ async function createOrder(productIds) {
     return { status: 400, message: "Something went wrong, try again" };
   }
 }
+async function getAllUsers() {
+  try {
+    const response = await fetch(`${BASE_URL}/api/v1/admin/get-all-users`, {
+      method: "POST",
+      headers: headers,
+    });
+    if (response.ok && response.status === 200) {
+      return response.json();
+    } else {
+      const error = await response.json();
+      return {
+        status: 400,
+        message: error.message || "Failed to fetch users",
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return { status: 400, message: "Something went wrong, try again" };
+  }
+}
 // Utility function to clear the cart
 async function clearCart() {
   try {
